@@ -1,6 +1,6 @@
 # iNominate
 
-##Git Instructions
+## Git Instructions
 
 ### Getting Started
 
@@ -62,4 +62,56 @@ git merge new_branch_name
 
 ### Resolving Conflicts
 If you and somebody else have modified the same line(s) of code there will be conflicts in the merge request.
-In order to 
+
+Here an example error message you would encounter in the command line:
+```
+Auto-merging styles.css
+CONFLICT (content): Merge conflict in styles.css
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Here the master file:
+```
+body {
+    font-size:1em;
+    margin:5px  
+}
+```
+
+Here the file on new_branch_name:
+```
+body {
+    font-size:1em;
+    padding:5px;
+}
+```
+
+Now this would be the result of the merge:
+
+```
+body {
+    font-size:1em;
+<<<<<<< HEAD
+    margin:5px  
+=======
+    padding:5px;
+>>>>>>> new_branch_name
+}
+```
+
+To fix the merge conflict remove the unncessary parts like so:
+
+```
+body {
+    font-size:1em;
+    margin:5px  
+    padding:5px;
+}
+```
+
+One of the complex problems is that there can be multiple of these merge requests and it can get very complex to resolve them. In an emergency you can roll back your merge request and start again.
+
+Here instructions from github how to resolve a merge conflict using the command line:
+https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/
+Here a youtube video explaining the process of manually resolving merge conflicts:
+https://www.youtube.com/watch?v=__cR7uPBOIk
