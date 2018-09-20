@@ -60,6 +60,31 @@ git checkout master
 git merge new_branch_name
 ```
 
+### Pushing the updated master to github
+In order for the changes to be available for everybody, you need to push the changes to our github repository.
+Use the below code to do so:
+```
+git push origin master
+```
+
+If you encounter connection problems make sure you have the correct repository set up. To check the current workind repository use this code:
+```
+git remote -v
+```
+The result should be:
+```
+origin  https://github.com/stefdworschak/iNominate.git (fetch)
+origin  https://github.com/stefdworschak/iNominate.git (push)
+```
+If not, you can change the repository like this:
+```
+git remote set-url orgin https://github.com/stefdworschak/iNominate.git
+```
+or if origin is not set at all:
+```
+git remote set-url -add origin https://github.com/stefdworschak/iNominate.git
+```
+
 ### Resolving Conflicts
 If you and somebody else have modified the same line(s) of code there will be conflicts in the merge request.
 
