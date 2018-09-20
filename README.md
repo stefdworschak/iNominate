@@ -111,7 +111,6 @@ body {
 
 One of the complex problems is that there can be multiple of these merge requests and it can get very complex to resolve them. In an emergency you can roll back your merge request and start again.
 
-Here instructions from github how to resolve a merge conflict using the command line:
-https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/
-Here a youtube video explaining the process of manually resolving merge conflicts:
-https://www.youtube.com/watch?v=__cR7uPBOIk
+[Github Instructions](https://help.github.com/articles/resolving-a-merge-conflict-using-the-command-line/) - how to resolve a merge conflict using the command line
+
+[YouTube Video](https://www.youtube.com/watch?v=__cR7uPBOIk) - explaining the process of manually resolving merge conflicts
