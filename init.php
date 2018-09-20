@@ -30,7 +30,7 @@
 
     echo "Connection established successfully!";
 
-    $sql = "CREATE TABLE IF NOT EXISTS users (
+    $sql = "CREATE TABLE IF NOT EXISTS `users` (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         first_name VARCHAR(32) NOT NULL,
         last_name VARCHAR(32) NOT NULL,
