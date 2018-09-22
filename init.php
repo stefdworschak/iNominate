@@ -5,12 +5,20 @@
     //Heroku Production Details
 
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-    echo '<pre>'; print_r(url); echo '</pre><br />';
-    $server = $url["host"];
-    $username = $url["user"];
-    $password = $url["pass"];
-    $db = substr($url["path"], 1);
 
+    $server = $url["host"];
+    echo $url["host"];
+    echo "<br />";
+    $username = $url["user"];
+    echo $url["user"];
+    echo "<br />";
+    $password = $url["pass"];
+    echo $url["pass"];
+    echo "<br />";
+    $db = substr($url["path"], 1);
+    echo $url["path"];
+    echo "<br />";
+    echo "<br />";
 
     /*
       // Localhost Dev Details
