@@ -7,18 +7,10 @@
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
     $server = $url["host"];
-    echo $url["host"];
-    echo "<br />";
-    $username = $url["user"];
-    echo $url["user"];
-    echo "<br />";
-    $password = $url["pass"];
-    echo $url["pass"];
-    echo "<br />";
+    $user = $url["user"];
+    $pw = $url["pass"];
     $db = substr($url["path"], 1);
-    echo $url["path"];
-    echo "<br />";
-    echo "<br />";
+
 
     /*
       // Localhost Dev Details
@@ -42,7 +34,8 @@
         `last_name` VARCHAR(32) NOT NULL,
         `email_address` VARCHAR(50) NOT NULL,
         `user_type` VARCHAR(32) NOT NULL,
-        `registration_date` TIMESTAMP
+        `registration_date` TIMESTAMP,
+        `active` BOOLEAN
     );";
     //$sql = 'CREATE DATABASE inominate;';
 
