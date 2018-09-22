@@ -64,7 +64,7 @@ git merge new_branch_name
 In order for the changes to be available for everybody, you need to push the changes to our github repository.
 Use the below code to do so:
 ```
-git push origin master
+git push --all
 ```
 
 If you encounter connection problems make sure you have the correct repository set up. To check the current workind repository use this code:
