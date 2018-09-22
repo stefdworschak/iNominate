@@ -10,7 +10,9 @@
     $user = $url["user"];
     $pw = $url["pass"];
     $db = substr($url["path"], 1);
-    /*
+
+
+/*
       // Localhost Dev Details
 
       $server = 'localhost';
@@ -24,7 +26,7 @@
     $conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "SELECT * FROM `users`;"
+    $sql = "SELECT * FROM `users`;";
 
     //$conn->exec($sql);
     echo "Connection Established successfully";
