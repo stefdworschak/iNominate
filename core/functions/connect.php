@@ -1,15 +1,16 @@
 <?php
-    
 
   try{
     // Using PDO to connect is the most secure solution
-    $conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
+    //$conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
+    $conn=$conn_str;
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "SELECT * FROM `users`;";
 
     //$conn->exec($sql);
-    echo "Connection Established successfully";
+    //echo "Connection Established successfully";
+
+    //$conn->close();
 
   } catch(PDOException $e)
     {
@@ -17,6 +18,28 @@
     }
 
 $conn = null;
+/*
+class inSQL
+{
+      function connect(){
+          try{
+            // Using PDO to connect is the most secure solution
+            $conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
+
+            // set the PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$conn->exec($sql);
+            //echo "Connection Established successfully";
+
+          } catch(PDOException $e)
+            {
+            echo $e->getMessage();
+            }
+      }
+
+}
+
+*/
 
 /*
       $conn = new mysqli($server, $user, $pw, $db);
