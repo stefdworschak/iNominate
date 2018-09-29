@@ -1,13 +1,15 @@
 <?php
 
 
-  echo "working";
+  echo "working<br>";
   try{
     require('core/env_vars.php');
     require('core/functions/connect.php');
-    echo "required reps";
-    /*
+    echo "required reps<br>";
+
     if(!empty($_POST)) {
+      echo "post check<br>";
+        /*
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
         if ($exists) {
@@ -26,11 +28,12 @@
           $_SESSION['last_name'] = $user_data['last_name'];
           $_SESSION['email_address'] = $user_data['email_address'];
           header('Location:../../index.php');
+          */
         }
       } else {
         header('Location:index.php');
       }
-      */
+
     } catch(Exception $e){
         echo 'Message: ' .$e->getMessage();
     }
