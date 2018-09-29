@@ -7,7 +7,7 @@
     require('core/functions/connect.php');
     echo "required reps<br>";
 
-    if(1=1) {
+    if(1==1) {
       echo "post check<br>";
         /*
         $c = new DBClass;
@@ -31,7 +31,7 @@
           */
         }
       } else {
-        header('Location:index.php');
+        //header('Location:index.php');
       }
 
     } catch(Exception $e){
