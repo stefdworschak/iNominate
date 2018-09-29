@@ -85,7 +85,7 @@ class DBClass extends DBSettings
         $user_type = $arr['user_type'];
         echo "before pw";
         $password = createHash($arr['password']);
-
+        echo $password;
         echo $email_address;
         //print_r($password);
         echo "afterpw";
