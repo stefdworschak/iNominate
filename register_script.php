@@ -23,11 +23,12 @@
           $_SESSION['email_address'] = $user_data['email_address'];
           header('Location:../../index.php');
         }
-      } catch(Exception $e){
-          echo 'Message: ' .$e->getMessage();
+      } else {
+        header('Location:index.php');
       }
-    } else {
-      header('Location:index.php');
+    } catch(Exception $e){
+        echo 'Message: ' .$e->getMessage();
     }
+
 
 ?>
