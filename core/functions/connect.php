@@ -1,6 +1,6 @@
 <?php
 //require('core/env_vars.php');
-//require('create_hash.php');
+require('create_hash.php');
 
 /*
 function createHash($pwd) {
