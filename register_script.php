@@ -12,13 +12,13 @@
         //$c = new DBClass;
         //$exists = $c->checkExists($_POST['emailaddress']);
         echo "check_exists works";
-        if ($exists) {
+        /*if ($exists) {
           echo "Already Exists";
           header('Location:index.php?mode=register&err=user_exists');
         } else if($_POST['password'] !== $_POST['password1']){
           echo "Passwords not matching";
           header('Location:index.php?mode=register&err=passwords_not_matching');
-        } else {
+        } else {*/
         /*  $registered = $c->register($_POST);
           $user_data = fetchUserData($_POST['emailaddress']);
 
