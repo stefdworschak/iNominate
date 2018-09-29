@@ -9,8 +9,8 @@
     if(!empty($_POST)) {
       echo "post check<br>";
 
-        $c = new DBClass;
-        $exists = $c->checkExists($_POST['emailaddress']);
+        //$c = new DBClass;
+        //$exists = $c->checkExists($_POST['emailaddress']);
         echo "check_exists works";
         if ($exists) {
           echo "Already Exists";
