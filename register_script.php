@@ -1,7 +1,7 @@
 <?php
   try{
-    require('../env_vars.php');
-    require('../functions/connect.php');
+    require('core/env_vars.php');
+    require('core/functions/connect.php');
     //print_r($_POST);
     if(!empty($_POST)) {
         $c = new DBClass;

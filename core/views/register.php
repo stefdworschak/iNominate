@@ -7,7 +7,7 @@
       <br />
         <h1>Register</h1>
         <!-- Source: https://getbootstrap.com/docs/4.0/components/forms/ -->
-        <form method="POST" action="core/functions/register_script.php" enctype="multipart/form-data">
+        <form method="POST" action="register_script.php" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" name="emailaddress" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
