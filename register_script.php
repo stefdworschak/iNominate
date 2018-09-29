@@ -5,6 +5,7 @@
   try{
     require('core/env_vars.php');
     require('core/functions/connect.php');
+    echo "required reps";
     /*
     if(!empty($_POST)) {
         $c = new DBClass;
@@ -33,6 +34,7 @@
     } catch(Exception $e){
         echo 'Message: ' .$e->getMessage();
     }
+
 
 
 ?>
