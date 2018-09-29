@@ -2,19 +2,19 @@
 //require('core/env_vars.php');
 //require('create_hash.php');
 
-
+/*
 function createHash($pwd) {
   echo("before options<br>");
   $settings = [
       'cost' => 11//,
-      //'salt' => ranodm_bytes(22),
+      'salt' => ranodm_bytes(22)
   ];
     echo("after options<br>");
     //$hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
     $hash = password_hash($pwd, PASSWORD_BCRYPT);
     echo("after hash options<br>");
     return $hash;
-}
+}*/
 
 class DBClass extends DBSettings
 {
