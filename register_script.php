@@ -1,8 +1,11 @@
 <?php
-  try{
+
+
+  echo "working";
+  /*try{
     require('core/env_vars.php');
     require('core/functions/connect.php');
-    //print_r($_POST);
+
     if(!empty($_POST)) {
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
@@ -28,7 +31,7 @@
       }
     } catch(Exception $e){
         echo 'Message: ' .$e->getMessage();
-    }
+    }*/
 
 
 ?>
