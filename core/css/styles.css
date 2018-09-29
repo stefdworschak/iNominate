@@ -3,3 +3,13 @@ body {
   font-family: Arial;sans-serif;
 
 }
+
+#UserType {
+  height:calc(2.25rem + 2px);
+  width:100%;
+  display:block;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  color:#495057;
+  line-height: 1.5;
+}

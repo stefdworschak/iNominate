@@ -1,75 +1,105 @@
 <?php
+//require('core/env_vars.php');
+require('create_hash.php');
 
-  try{
-    // Using PDO to connect is the most secure solution
-    //$conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
-    $conn=$conn_str;
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+class DBClass extends DBSettings
+{
+    var $conn;
 
-    //$conn->exec($sql);
-    //echo "Connection Established successfully";
+    function connect(){
+        $settings = DBSettings::getSettings();
 
-    //$conn->close();
+        $server = $settings['server'];
+        $user = $settings['user'];
+        $pw = $settings['pw'];
+        $db = $settings['db'];
 
-  } catch(PDOException $e)
-    {
-    echo $sql . "<br>" . $e->getMessage();
+        $this->conn = new PDO("mysql:host=$server;dbname=$db", $user, $pw);
+        $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      //  echo "Connected successfully.\n\r";
     }
 
-$conn = null;
-/*
-class inSQL
-{
-      function connect(){
-          try{
-            // Using PDO to connect is the most secure solution
-            $conn=new PDO("mysql:host=$server;dbname=$db", $user, $pw);
+    function close(){
+        $this->conn=null;
+        //echo "Connection closed.\n\r";
+    }
 
-            // set the PDO error mode to exception
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            //$conn->exec($sql);
-            //echo "Connection Established successfully";
+    function selectAll($tbl){
+      $this->connect();
+      $stmt = $this->conn->prepare("SELECT * FROM `{$tbl}`;");
+      //$stmt->bindParam(":table",$tbl);
+      $result = $stmt->execute();
+      //$stmt->close();
+      $this->close();
+      return $result;
+    }
 
-          } catch(PDOException $e)
-            {
-            echo $e->getMessage();
-            }
-      }
+    function checkLogin($user, $pw){
+      $this->connect();
+      $tbl = 'users';
+      $stmt = $this->conn->prepare("SELECT `password` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt->bindParam(":username",$user,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->fetchColumn();
+      $this->close();
+      $loggedin = password_verify($pw,$f);
+      return $loggedin;
+    }
+
+    function fetchUserData($user){
+      $this->connect();
+      $tbl = 'users';
+      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt->bindParam(":username",$user,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->fetchAll();
+      $this->close();
+      return $f[0];
+    }
+
+    function checkExists($email_address) {
+      $this->connect();
+      $tbl = 'users';
+      $stmt = $this->conn->prepare("SELECT `id` FROM `{$tbl}` WHERE `email_address` = :email_address;");
+      $stmt->bindParam(":email_address",$email_address,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->fetchAll();
+      $exists = sizeof($f) > 0 ? TRUE : FALSE;
+      $this->close();
+      return $exists;
+    }
+
+    function register($arr){
+        $email_address = $arr['emailaddress'];
+        $first_name = $arr['first_name'];
+        $last_name = $arr['last_name'];
+        $user_type = $arr['user_type'];
+        $password = createHash($arr['password']);
+
+        echo $email_address;
+        //print_r($password);
+
+        $this->connect();
+        $tbl = 'users';
+        $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type, CURRENT_TIMESTAMP());");
+        $stmt->bindParam(":email_address",$email_address,PDO::PARAM_STR);
+        $stmt->bindParam(":first_name",$first_name,PDO::PARAM_STR);
+        $stmt->bindParam(":last_name",$last_name,PDO::PARAM_STR);
+        $stmt->bindParam(":password",$password,PDO::PARAM_STR);
+        $stmt->bindParam(":user_type",$user_type,PDO::PARAM_STR);
+        $stmt->execute();
+        $this->close();
+
+        return true;
+    }
 
 }
 
-*/
+  $c = new DBClass;
+  //$c->close();
+  $results = $c->selectAll('users');
+  //print_r($results);
 
-/*
-      $conn = new mysqli($server, $user, $pw, $db);
-
-      if($conn->connect_error){
-          die('Connection failed ' . $conn->connect_error);
-      }
-
-    echo "Connection established successfully!";
-*/
-    /*$sql = "CREATE TABLE IF NOT EXISTS `users` (
-        `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `first_name` VARCHAR(32) NOT NULL,
-        `last_name` VARCHAR(32) NOT NULL,
-        `email_address` VARCHAR(50) NOT NULL,
-        `user_type` VARCHAR(32) NOT NULL,
-        `registration_date` TIMESTAMP,
-        `active` BOOLEAN
-    );";
-    //$sql = 'CREATE DATABASE inominate;';
-    */
-/*
-    $sql = "INSERT INTO `users` (`firstname`,`last_name`,`email_address`,`user_type`,`registration_date`,`active`) VALUES ()"
-
-    if($conn->query($sql) === TRUE){
-      echo "DB created successfully!";
-    } else {
-      die('Error in SQL Syntax ' . $conn->connect_error);
-    }
-*/
 
 
 ?>
