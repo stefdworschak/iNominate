@@ -74,11 +74,12 @@ class DBClass extends DBSettings
         $first_name = $arr['first_name'];
         $last_name = $arr['last_name'];
         $user_type = $arr['user_type'];
+        echo "before pw";
         $password = createHash($arr['password']);
 
         echo $email_address;
         //print_r($password);
-
+        echo "afterpw";
         $this->connect();
         $tbl = 'users';
         $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type, CURRENT_TIMESTAMP());");

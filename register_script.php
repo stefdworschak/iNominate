@@ -22,6 +22,7 @@
         } else {
           echo "else";
           $registered = $c->register($_POST);
+          
           $user_data = fetchUserData($_POST['emailaddress']);
           echo "userdata";
           session_start();
