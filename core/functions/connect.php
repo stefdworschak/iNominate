@@ -1,6 +1,15 @@
 <?php
 //require('core/env_vars.php');
-require('create_hash.php');
+//require('create_hash.php');
+
+function createHash($pwd) {
+  $options = [
+      'cost' => 11,
+      'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
+  ];
+  //echo password_hash("Password1", PASSWORD_BCRYPT, $options);
+  return password_hash($pwd, PASSWORD_BCRYPT, $options);
+}
 
 class DBClass extends DBSettings
 {
