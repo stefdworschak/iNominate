@@ -2,10 +2,10 @@
 
 
   echo "working";
-  /*try{
+  try{
     require('core/env_vars.php');
     require('core/functions/connect.php');
-
+    /*
     if(!empty($_POST)) {
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
@@ -29,9 +29,10 @@
       } else {
         header('Location:index.php');
       }
+      */
     } catch(Exception $e){
         echo 'Message: ' .$e->getMessage();
-    }*/
+    }
 
 
 ?>
