@@ -20,9 +20,10 @@
           echo "Passwords not matching";
           header('Location:../../index.php?mode=register&err=passwords_not_matching');
         } else {
+          echo "else";
           $registered = $c->register($_POST);
           $user_data = fetchUserData($_POST['emailaddress']);
-
+          echo "userdata";
           session_start();
           $_SESSION['userid'] = $user_data['id'];
           $_SESSION['first_name'] = $user_data['first_name'];
