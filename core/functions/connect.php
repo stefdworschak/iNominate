@@ -5,12 +5,13 @@
 
 function createHash($pwd) {
   echo("before options<br>");
-  $options = [
+  /*$options = [
       'cost' => 11,
       'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)
-  ];
+  ];*/
     echo("after options<br>");
-  $hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
+    //$hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
+    $hash = password_hash($pwd, PASSWORD_BCRYPT);
     echo("after hash options<br>");
     return $hash;
 }
