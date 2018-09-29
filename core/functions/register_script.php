@@ -1,12 +1,18 @@
 <?php
+
+  echo "working<br>";
   try{
     ob_start();
     require('../env_vars.php');
-    require('../functions/connect.php');
-    //print_r($_POST);
+    require('connect.php');
+    echo "required reps<br>";
+
     if(!empty($_POST)) {
+      echo "post check<br>";
+        //$exist = 0;
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
+        echo "check_exists works";
         if ($exists) {
           echo "Already Exists";
           header('Location:../../index.php?mode=register&err=user_exists');
@@ -14,7 +20,7 @@
           echo "Passwords not matching";
           header('Location:../../index.php?mode=register&err=passwords_not_matching');
         } else {
-          /*$registered = $c->register($_POST);
+          $registered = $c->register($_POST);
           $user_data = fetchUserData($_POST['emailaddress']);
 
           session_start();
@@ -22,13 +28,16 @@
           $_SESSION['first_name'] = $user_data['first_name'];
           $_SESSION['last_name'] = $user_data['last_name'];
           $_SESSION['email_address'] = $user_data['email_address'];
-          header('Location:../../index.php');*/
-        }
-      } catch(Exception $e){
-          echo 'Message: ' .$e->getMessage();
+          header('Location:../../index.php');
+          }
+        } else {
+        header('Location:../../index.php');
       }
-    } else {
-      header('Location:index.php');
+
+    } catch(Exception $e){
+        echo 'Message: ' .$e->getMessage();
     }
+
+
 
 ?>
