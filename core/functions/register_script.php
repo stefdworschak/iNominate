@@ -1,5 +1,6 @@
 <?php
   try{
+    ob_start();
     require('../env_vars.php');
     require('../functions/connect.php');
     //print_r($_POST);
