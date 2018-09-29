@@ -7,7 +7,7 @@ function createHash($pwd) {
   echo("before options<br>");
   $options = [
       'cost' => 11,
-      'salt' => ranodm_bytes(22)
+      'salt' => ranodm_bytes(22),
   ];
     echo("after options<br>");
     //$hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
