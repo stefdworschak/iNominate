@@ -26,9 +26,9 @@
   $c = new DBClass;
 
   //Alter table
-  $c->connect();
-  $stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
-  $stmt->execute();
+  //$c->connect();
+  //$stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
+  //$stmt->execute();
 
   $c->connect();
   //$stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
