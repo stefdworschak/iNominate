@@ -13,7 +13,7 @@
           echo "Passwords not matching";
           header('Location:../../index.php?mode=register&err=passwords_not_matching');
         } else {
-          $registered = $c->register($_POST);
+          /*$registered = $c->register($_POST);
           $user_data = fetchUserData($_POST['emailaddress']);
 
           session_start();
@@ -21,7 +21,7 @@
           $_SESSION['first_name'] = $user_data['first_name'];
           $_SESSION['last_name'] = $user_data['last_name'];
           $_SESSION['email_address'] = $user_data['email_address'];
-          header('Location:../../index.php');
+          header('Location:../../index.php');*/
         }
       } catch(Exception $e){
           echo 'Message: ' .$e->getMessage();

@@ -1,6 +1,5 @@
 <?php
 
-
   echo "working<br>";
   try{
     require('core/env_vars.php');
@@ -12,6 +11,7 @@
 
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
+        echo "check_exists works";
         if ($exists) {
           echo "Already Exists";
           header('Location:index.php?mode=register&err=user_exists');
@@ -19,7 +19,7 @@
           echo "Passwords not matching";
           header('Location:index.php?mode=register&err=passwords_not_matching');
         } else {
-          $registered = $c->register($_POST);
+        /*  $registered = $c->register($_POST);
           $user_data = fetchUserData($_POST['emailaddress']);
 
           session_start();
@@ -27,7 +27,7 @@
           $_SESSION['first_name'] = $user_data['first_name'];
           $_SESSION['last_name'] = $user_data['last_name'];
           $_SESSION['email_address'] = $user_data['email_address'];
-          header('Location:index.php');
+          header('Location:index.php');*/
 
         } else {
         header('Location:index.php');
