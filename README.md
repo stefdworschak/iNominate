@@ -2,6 +2,13 @@
 
 ## Git Instructions
 
+## Deployed version
+
+You can find the deployed version of this github repository here:
+```
+inominate-2018@heroku.com
+```
+
 ### Getting Started
 
 To set up the git directory on your workstation follow these instructions:
