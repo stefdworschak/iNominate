@@ -12,7 +12,7 @@
         //$exist = 0;
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
-        echo "check_exists works";
+        echo "check_exists works!!!";
         if ($exists) {
           echo "Already Exists";
           header('Location:../../index.php?mode=register&err=user_exists');
