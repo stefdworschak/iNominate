@@ -3,12 +3,16 @@
 //require('create_hash.php');
 
 function createHash($pwd) {
+  echo("before options<br>");
   $options = [
       'cost' => 11,
       'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM),
   ];
   //echo password_hash("Password1", PASSWORD_BCRYPT, $options);
-  return password_hash($pwd, PASSWORD_BCRYPT, $options);
+    echo("after options<br>");
+  $hash = password_hash($pwd, PASSWORD_BCRYPT, $options);
+    echo("after hash options<br>");
+    return $hash;
 }
 
 class DBClass extends DBSettings
@@ -83,12 +87,12 @@ class DBClass extends DBSettings
         $first_name = $arr['first_name'];
         $last_name = $arr['last_name'];
         $user_type = $arr['user_type'];
-        echo "before pw";
+        echo "<br>before pw";
         $password = createHash($arr['password']);
         echo $password;
         echo $email_address;
         //print_r($password);
-        echo "afterpw";
+        echo "<br>afterpw";
         $this->connect();
         $tbl = 'users';
         $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type, CURRENT_TIMESTAMP());");
