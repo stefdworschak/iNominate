@@ -4,8 +4,9 @@
 
   $c = new DBClass;
   $c->connect();
-  $stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
-  $stmt->execute();
+  //$stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
+
+  //$stmt->execute();
   $c->close();
 
 ?>
