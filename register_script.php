@@ -7,7 +7,7 @@
     require('core/functions/connect.php');
     echo "required reps<br>";
 
-    if(!empty($_POST)) {
+    if(1=1) {
       echo "post check<br>";
         /*
         $c = new DBClass;
