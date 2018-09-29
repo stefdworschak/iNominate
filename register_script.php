@@ -7,7 +7,7 @@
     require('core/functions/connect.php');
     echo "required reps<br>";
 
-    if(1==1) {
+    if(!empty($_POST)) {
       echo "post check<br>";
         /*
         $c = new DBClass;
@@ -29,9 +29,8 @@
           $_SESSION['email_address'] = $user_data['email_address'];
           header('Location:../../index.php');
           */
-        }
-      } else {
-        //header('Location:index.php');
+        } else {
+        header('Location:index.php');
       }
 
     } catch(Exception $e){
