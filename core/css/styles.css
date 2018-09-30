@@ -13,3 +13,11 @@ body {
   color:#495057;
   line-height: 1.5;
 }
+
+.container-fluid {
+  margin-top:35px;
+}
+
+.main_card {
+  margin-bottom:15px;
+}

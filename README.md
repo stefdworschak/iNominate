@@ -6,7 +6,7 @@
 
 You can find the deployed version of this github repository here:
 ```
-inominate-2018@heroku.com
+[inominate-2018@heroku.com](inominate-2018@heroku.com)
 ```
 
 ### Getting Started
