@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href="#">
+    <!-- https://pixabay.com/en/group-user-add-icon-person-2935518/ -->
     <img src="core/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
     iNominate
   </a>
