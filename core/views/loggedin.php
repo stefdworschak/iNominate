@@ -19,9 +19,12 @@
     </div>
   </div>
 </nav>
+
+
+
 <div class="container-fluid">
   <div class="row">
-
+    <div class="col-md-2 col-lg-2">
     <?php
         include('left_pane.php');
     ?>
@@ -35,6 +38,8 @@
         include('includes/loggedin_main.php');
     } else if($view == 'candidates') {
         include('includes/all_candidates.php');
+    }  else if($view == 'profile') {
+        include('includes/profile.php');
     } else {
         include('includes/loggedin_main.php');
     }

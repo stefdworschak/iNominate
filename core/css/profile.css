@@ -1,0 +1,13 @@
+.profile_card {
+  width:100%;
+  height:auto;
+}
+
+.profile_subtitle {
+  border-bottom:1px solid lightgray;
+  padding-bottom:4px;
+}
+
+.profile_text {
+  min-height:100px;
+}

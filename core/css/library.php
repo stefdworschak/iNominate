@@ -6,3 +6,4 @@
 
 <!--Custom Stylesheets-->
 <link rel="stylesheet" href="core/css/styles.css">
+<link rel="stylesheet" href="core/css/profile.css">

@@ -17,8 +17,6 @@
 <body>
     <?php
 
-      
-
       if(isset($_SESSION['userid'])) {
           include('core/views/loggedin.php');
       } else {

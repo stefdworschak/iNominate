@@ -9,7 +9,8 @@
           <img class="card-img-top" src="core/img/portrait.png" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <a href="#" class="btn btn-primary">See Profile</a>
+            <a href="index.php?view=profile&id=1" class="btn btn-primary">See Profile</a>
+            &nbsp;<a href="#" class="btn btn-danger">Vote!</a>
           </div>
           </div>
 
@@ -20,7 +21,8 @@
           <img class="card-img-top" src="core/img/portrait.png" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <a href="#" class="btn btn-primary">See Profile</a>
+            <a href="index.php?view=profile&id=2" class="btn btn-primary">See Profile</a>
+            &nbsp;<a href="#" class="btn btn-danger">Vote!</a>
           </div>
           </div>
 
@@ -31,7 +33,8 @@
           <img class="card-img-top" src="core/img/portrait.png" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <a href="#" class="btn btn-primary">See Profile</a>
+            <a href="index.php?view=profile&id=3" class="btn btn-primary">See Profile</a>
+            &nbsp;<a href="#" class="btn btn-danger">Vote!</a>
           </div>
           </div>
 
@@ -42,7 +45,8 @@
           <img class="card-img-top" src="core/img/portrait.png" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <a href="#" class="btn btn-primary">See Profile</a>
+            <a href="index.php?view=profile&id=4" class="btn btn-primary">See Profile</a>
+            &nbsp;<a href="#" class="btn btn-danger">Vote!</a>
           </div>
           </div>
 

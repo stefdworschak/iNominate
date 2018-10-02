@@ -1,4 +1,4 @@
-<div class="col-md-2 col-lg-2">
+
     <!-- https://getbootstrap.com/docs/4.0/components/card/ -->
       <div class="card" style="width: 100%;">
       <img class="card-img-top" src="core/img/portrait.png" alt="Card image cap">
