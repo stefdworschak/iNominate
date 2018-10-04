@@ -1,6 +1,5 @@
 <?php
-  require('../env_vars.php');
-  require('../functions/connect.php');
+  require('../init.php');
 
   //print_r($_POST);
 

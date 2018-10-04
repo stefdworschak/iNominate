@@ -1,8 +1,7 @@
 <?php
 //https://www.w3schools.com/Php/php_file_upload.asp
 require('auxilary.php');
-require('../env_vars.php');
-require('../functions/connect.php');
+require('../init.php');
 session_start();
 
 $str = random_str(8);

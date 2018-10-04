@@ -2,10 +2,15 @@
 <?php
     session_start();
     require('core/init.php');
-    //echo "Hello, World 2018!";
+    // To secure from cross-site scripting
+    require('core/functions/xss_init.php')
 ?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <?php echo "<script> var orgid='" . $_SESSION['orgid'] . "'; </script>"; ?>
     <?php
         require_once('core/css/library.php');
         require_once('core/js/library.php');

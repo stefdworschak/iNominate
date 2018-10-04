@@ -3,8 +3,7 @@
   echo "working<br>";
   try{
     ob_start();
-    require('../env_vars.php');
-    require('connect.php');
+    require('../init.php');
     echo "required reps<br>";
 
     if(!empty($_POST)) {
@@ -12,7 +11,7 @@
         //$exist = 0;
         $c = new DBClass;
         $exists = $c->checkExists($_POST['emailaddress']);
-        echo "check_exists works!!!";
+        echo "check_exists works";
         if ($exists) {
           echo "Already Exists";
           header('Location:../../index.php?mode=register&err=user_exists');
@@ -20,15 +19,16 @@
           echo "Passwords not matching";
           header('Location:../../index.php?mode=register&err=passwords_not_matching');
         } else {
-          echo "else";
           $registered = $c->register($_POST);
           $user_data = $c->fetchUserData($_POST['emailaddress']);
-          echo "userdata";
           session_start();
           $_SESSION['userid'] = $user_data['id'];
           $_SESSION['first_name'] = $user_data['first_name'];
           $_SESSION['last_name'] = $user_data['last_name'];
           $_SESSION['email_address'] = $user_data['email_address'];
+          $_SESSION['user_type'] = $user_data['user_type'];
+          $_SESSION['org'] = $user_data['org'];
+          $_SESSION['img_link'] = $user_data['img_link'];
           header('Location:../../index.php');
           }
         } else {
@@ -38,7 +38,5 @@
     } catch(Exception $e){
         echo 'Message: ' .$e->getMessage();
     }
-
-
 
 ?>

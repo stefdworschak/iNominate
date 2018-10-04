@@ -49,7 +49,7 @@ class DBClass extends DBSettings
     function fetchUserData($user){
       $this->connect();
       $tbl = 'users';
-      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`org`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
       $stmt->bindParam(":username",$user,PDO::PARAM_STR);
       $stmt->execute();
       $f = $stmt->fetchAll();
@@ -74,6 +74,7 @@ class DBClass extends DBSettings
         $first_name = $arr['first_name'];
         $last_name = $arr['last_name'];
         $user_type = $arr['user_type'];
+        $org = $arr['org'];
         echo "<br>before pw";
         $password = createHash($arr['password']);
         echo $password;
@@ -82,12 +83,13 @@ class DBClass extends DBSettings
         echo "<br>afterpw";
         $this->connect();
         $tbl = 'users';
-        $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type, CURRENT_TIMESTAMP());");
+        $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`org`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type,:org, CURRENT_TIMESTAMP());");
         $stmt->bindParam(":email_address",$email_address,PDO::PARAM_STR);
         $stmt->bindParam(":first_name",$first_name,PDO::PARAM_STR);
         $stmt->bindParam(":last_name",$last_name,PDO::PARAM_STR);
         $stmt->bindParam(":password",$password,PDO::PARAM_STR);
         $stmt->bindParam(":user_type",$user_type,PDO::PARAM_STR);
+        $stmt->bindParam(":org",$org,PDO::PARAM_STR);
         $stmt->execute();
         $this->close();
 
