@@ -4,7 +4,7 @@
     $c = new DBClass;
     $c->connect();
     //$stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
-    $stmt=$c->conn->prepare("ALTER TABLE `users` ADD `img_link` VARCHAR(100) AFTER `user_type`;");
+    $stmt=$c->conn->prepare("ALTER TABLE `users` ADD `org` VARCHAR(50) NOT NULL AFTER `user_type`;");
     $stmt->execute();
     $c->close();
  ?>

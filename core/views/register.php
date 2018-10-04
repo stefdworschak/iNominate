@@ -7,7 +7,7 @@
       <br />
         <h1>Register</h1>
         <!-- Source: https://getbootstrap.com/docs/4.0/components/forms/ -->
-        <form method="POST" action="register_script.php" enctype="multipart/form-data">
+        <form method="POST" action="core/functions/register_script.php" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" name="emailaddress" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -26,11 +26,13 @@
             <br />
             <select id="UserType" name="user_type">
                 <option>Please Select</option>
-                <option>---</option>
-                <option value="voter">Voter</option>
-                <option value="candidate">Candidate</option>
+                <option value="voter">User</option>
                 <option value="admin">Admin</option>
             </select>
+          </div>
+          <div class="form-group" id="orgDisplay">
+            <label for="org">Organisation Name</label>
+            <input type="text" class="form-control" name="org" id="org" placeholder="Organisation Name">
           </div>
           <div class="form-group">
             <label for="Password">Password</label>
@@ -40,14 +42,10 @@
             <label for="Password1">Repeat Password</label>
             <input type="password" name="password1" class="form-control" id="Password1" placeholder="Repeat Password">
           </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-          </div>
           <button type="submit" class="btn btn-primary">Register</button>&nbsp;
           <button id="loginBtn" class="btn btn-danger">Sign In</button>
         </form>
-
+        <br />
       </div>
       <div class="col-md-4 col-lg-4">
             &nbsp;

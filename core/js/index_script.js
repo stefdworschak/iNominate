@@ -8,6 +8,34 @@ $(document).ready(function(){
     event.preventDefault();
     window.location.href="index.php?mode=login";
   })
+
+  $('#UserType').change(function(){
+    $('#orgDisplay').show();
+    var $sel = $('#UserType option:selected');
+    if($sel.val() == 'voter') {
+
+      var fm = new FormData()
+      fm.append('orgid',orgid);
+      $.ajax({
+        type:'POST',
+        url:'core/functions/orgs.php',
+        processData: false,
+        contentType: false,
+        data:fm,
+      //  dataType: 'json',
+        success:callback
+      });
+
+      function callback(res){
+        console.log(res);
+        var $src = JSON.parse(res);
+        $('#org').autocomplete({ source: $src })
+      }
+
+    }
+
+  });
+
   $('.my_profile_img').hover(function(){
     $('.edit_img').css('display','block');
   }).mouseout(function(){

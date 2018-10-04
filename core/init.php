@@ -1,5 +1,5 @@
 <?php
-  require('core/env_vars.php');
-  require('core/functions/connect.php');
+  require('env_vars.php');
+  require('functions/connect.php');
 
  ?>
