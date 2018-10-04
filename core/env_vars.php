@@ -9,7 +9,7 @@
           // Variable to decide if development environment is used or production
           // $m = 1     for production
           // $m = 0     for development
-          $m = 0;
+          $m = 1;
           $url = ($m < 1 ? '' : parse_url(getenv("CLEARDB_DATABASE_URL")));
 
           $settings['server'] = ($m < 1 ? 'localhost' : $url["host"]);

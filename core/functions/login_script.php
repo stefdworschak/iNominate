@@ -23,6 +23,7 @@
     $_SESSION['first_name'] = $user_data['first_name'];
     $_SESSION['last_name'] = $user_data['last_name'];
     $_SESSION['email_address'] = $user_data['email_address'];
+    $_SESSION['img_link'] = $user_data['img_link'];
     header('Location:../../index.php');
   } else {
     header('Location:../../index.php?err=login_err');

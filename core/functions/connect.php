@@ -49,7 +49,7 @@ class DBClass extends DBSettings
     function fetchUserData($user){
       $this->connect();
       $tbl = 'users';
-      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
       $stmt->bindParam(":username",$user,PDO::PARAM_STR);
       $stmt->execute();
       $f = $stmt->fetchAll();
@@ -92,6 +92,18 @@ class DBClass extends DBSettings
         $this->close();
 
         return true;
+    }
+
+    function imgLink($id, $link){
+      $this->connect();
+      $tbl = 'users';
+      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `img_link` = :img_link WHERE `id` = :id;");
+      $stmt->bindParam(":img_link",$link,PDO::PARAM_STR);
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $this->close();
+
+      return true;
     }
 
 }

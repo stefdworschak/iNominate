@@ -40,6 +40,8 @@
         include('includes/all_candidates.php');
     }  else if($view == 'profile') {
         include('includes/profile.php');
+    } else if($view == 'upload_photo') {
+        include('includes/upload_photo.php');
     } else {
         include('includes/loggedin_main.php');
     }

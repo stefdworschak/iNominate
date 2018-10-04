@@ -21,3 +21,19 @@ body {
 .main_card {
   margin-bottom:15px;
 }
+
+.edit_img {
+  position: absolute;
+  top:0px;
+  right:0px;
+  color: gray;
+  display:none;
+}
+.edit_img:hover{
+  color:black;
+  cursor: pointer;
+}
+
+#submit_photo {
+  display:none;
+}
