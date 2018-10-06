@@ -4,6 +4,7 @@ body {
 
 }
 
+/* register.php */
 #UserType {
   height:calc(2.25rem + 2px);
   width:100%;
@@ -18,6 +19,18 @@ body {
   display:none;
 }
 
+.err_output {
+  display:inline;
+  /*border:1px solid gray;*/
+  font-style: italic;
+  color:red;
+  font-size:11px;
+  line-height: 10px;
+  margin-left:20px;
+}
+/* register.php */
+
+/*loggedin.php */
 .container-fluid {
   margin-top:35px;
 }
@@ -37,7 +50,12 @@ body {
   color:black;
   cursor: pointer;
 }
+/*loggedin.php */
+
+/*upload_photo */
 
 #submit_photo {
   display:none;
 }
+
+/*upload_photo */
