@@ -15,7 +15,7 @@ $(document).ready(function(){
     if($sel.val() == 'voter') {
 
       var fm = new FormData()
-      fm.append('orgid',orgid);
+      fm.append('xssid',xssid);
       $.ajax({
         type:'POST',
         url:'core/functions/orgs.php',

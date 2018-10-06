@@ -10,7 +10,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <?php echo "<script> var orgid='" . $_SESSION['orgid'] . "'; </script>"; ?>
+  <?php echo "<script> var xssid='" . $_SESSION['xssid'] . "'; </script>"; ?>
     <?php
         require_once('core/css/library.php');
         require_once('core/js/library.php');
