@@ -11,8 +11,13 @@
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link" href="index.php?view=candidates">View Candidates</a>
-      <a class="nav-item nav-link" href="#">View Elections</a>
+      <!--<a class="nav-item nav-link" href="#">View Elections</a>-->
       <a class="nav-item nav-link" href="#">Company Structure</a>
+      <?php
+        if($_SESSION['user_type'] == 'admin') {
+          echo "<a class='nav-item nav-link' href='index.php?view=admin_panel'>Admin Panel</a>";
+        }
+      ?>
     </div>
     <div class="navbar-nav text-right">
         <a class="nav-item nav-link disabled text-right" href="core/functions/logout_script.php"><i class="fas fa-sign-out-alt"></i></a>

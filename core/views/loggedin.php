@@ -21,6 +21,8 @@
         include('includes/profile.php');
     } else if($view == 'upload_photo') {
         include('includes/upload_photo.php');
+    } else if($view == 'admin_panel') {
+        include('includes/admin_panel.php');
     } else {
         include('includes/loggedin_main.php');
     }
