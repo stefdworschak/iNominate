@@ -108,6 +108,16 @@ class DBClass extends DBSettings
       return true;
     }
 
+    function createElection($arr){
+      $this->connect();
+      $tbl = 'elections';
+      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `img_link` = :img_link WHERE `id` = :id;");
+      $stmt->bindParam(":img_link",$link,PDO::PARAM_STR);
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $this->close();
+    }
+
 }
 
   $c = new DBClass;

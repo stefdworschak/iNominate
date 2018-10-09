@@ -23,6 +23,8 @@
         include('includes/upload_photo.php');
     } else if($view == 'admin_panel') {
         include('includes/admin_panel.php');
+    } else if($view == 'create_election') {
+        include('includes/create_election.php');
     } else {
         include('includes/loggedin_main.php');
     }
