@@ -109,11 +109,22 @@ class DBClass extends DBSettings
     }
 
     function createElection($arr){
+
+      $title = $arr['election_title'];
+      $description = $arr['election_description'];
+      $department = $arr['election_department'];
+      echo $department;
+      $num_candidates = $arr['election_numcandidates'];
+      $expiry_dt = $arr['election_expirydate'] . " " . $arr['election_expirytime'];
+
       $this->connect();
       $tbl = 'elections';
-      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `img_link` = :img_link WHERE `id` = :id;");
-      $stmt->bindParam(":img_link",$link,PDO::PARAM_STR);
-      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`title`,`description`,`department`,`num_candidates`,`expiry_date`) VALUES (:title, :description, :department, :num_candidates, :expiry_date);");
+      $stmt->bindParam(":title",$title,PDO::PARAM_STR);
+      $stmt->bindParam(":description",$description,PDO::PARAM_STR);
+      $stmt->bindParam(":department",$department,PDO::PARAM_STR);
+      $stmt->bindParam(":num_candidates",$num_candidates,PDO::PARAM_INT);
+      $stmt->bindParam(":expiry_date",$expiry_dt,PDO::PARAM_STR);
       $stmt->execute();
       $this->close();
     }

@@ -10,7 +10,7 @@
         <h4 class="card-header">Create New Election</h4>
         <div class="card-body">
 
-          <form>
+          <form method="POST" action="core/functions/create_election.php" enctype="multipart/form-data" id="CreateElectionForm">
             <div class="form-group">
               <label for="election_title">Title</label>
               <input type="text" class="form-control" id="election_title" name="election_title" placeholder="Title" maxlength="50">
@@ -22,8 +22,8 @@
             </div>
 
             <div class="form-group">
-              <label for="election_categories">Department</label>
-              <select multiple class="form-control"  id="election_categories" name="election_categories">
+              <label for="election_department">Department</label>
+              <select multiple class="form-control"  id="election_department" name="election_department">
                 <option>Operations</option>
                 <option>Human Resources</option>
                 <option>Finance</option>
@@ -38,19 +38,19 @@
             </div>
 
             <div class="form-row">
-              <div class="col-md-2 mb-">
+              <div class="col-md-3 mb-">
                   <label for="election_expirydate">Expiry Date</label>
-                  <input type="datetime" class="form-control" id="election_expirydate" name="election_expirydate">
+                  <input type="date" class="form-control" id="election_expirydate" name="election_expirydate">
               </div>
               <div class="col-md-2 mb-3">
-                  <label for="election_expirydate">Time</label>
-                  <input type="datetime" class="form-control" id="election_expirydate" name="election_expirydate">
+                  <label for="election_expirytime">Time</label>
+                  <input type="time" class="form-control" id="election_expirytime" name="election_expirytime">
               </div>
               <!--<div class="col-md-3 mb-3">
                   <label for="election_expirydate">Timezone</label>
                   <input type="datetime" class="form-control" id="election_expirydate" name="election_expirydate">
               </div>-->
-              <div class="col-md-8 mb-3">
+              <div class="col-md-7 mb-3">
                   &nbsp;
               </div>
             </div>
