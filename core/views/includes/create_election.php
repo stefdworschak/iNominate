@@ -32,17 +32,24 @@
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="election_numcandidates">Max. Candidates<span class="err_output" id="numcandidates_err"><span></label>
-              <input type="number" class="form-control" id="election_numcandidates" name="election_numcandidates" value="10">
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                  <label for="election_numcandidates">Max. Candidates<span class="err_output" id="numcandidates_err"><span></label>
+                  <input type="number" class="form-control" id="election_numcandidates" name="election_numcandidates" value="10">
+              </div>
+              <div class="col-md-6 mb-3">
+                  <label for="election_numroles">Num. Available Roles<span class="err_output" id="numroles_err"><span></label>
+                  <input type="number" class="form-control" id="election_numroles" name="election_numroles" value="1">
+              </div>
             </div>
 
             <div class="form-row">
-              <div class="col-md-3 mb-">
+              <div class="col-md-6 mb-3">
                   <label for="election_expirydate">Expiry Date<span class="err_output" id="expDate_err"><span></label>
                   <input type="date" class="form-control" id="election_expirydate" name="election_expirydate">
               </div>
-              <div class="col-md-2 mb-3">
+              <div class="col-md-6 mb-3">
                   <label for="election_expirytime">Time<span class="err_output" id="expTime_err"><span></label>
                   <input type="time" class="form-control" id="election_expirytime" name="election_expirytime">
               </div>
@@ -50,9 +57,6 @@
                   <label for="election_expirydate">Timezone</label>
                   <input type="datetime" class="form-control" id="election_expirydate" name="election_expirydate">
               </div>-->
-              <div class="col-md-7 mb-3">
-                  &nbsp;
-              </div>
             </div>
 
             <input type="hidden" value="<?php echo $_SESSION['userid']; ?>" name="election_creation" />
