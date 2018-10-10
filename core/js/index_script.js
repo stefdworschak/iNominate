@@ -54,10 +54,7 @@ $(document).ready(function(){
       var $org = $('#org').val() == undefined ? '' : $('#org').val();
       var $pwd = $('#Password').val();
       var $pwd2 = $('#Password1').val();
-      //console.log($usertype)
-      //console.log(!$org)
-      //console.log($orgs.indexOf('') == -1)
-      //console.log(!org || ($orgs != null && $orgs.indexOf($org) == -1))
+
       if(!$email || !$first || !$last || $usertype == 'Please Select' || !$org || !$pwd || !$pwd2){
         if(!$email) { $('#email_err').text("Please enter an email address."); }
         if(!$first) { $('#last_err').text("Please enter your first name"); }
@@ -102,6 +99,9 @@ $(document).ready(function(){
     };
     reader.readAsDataURL($(this)[0].files[0]);
     $('#submit_photo').css('display','block');
+
   })
+
+  electionHandler();  
 
 })
