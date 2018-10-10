@@ -115,15 +115,17 @@ class DBClass extends DBSettings
       $department = $arr['election_department'];
       echo $department;
       $num_candidates = $arr['election_numcandidates'];
+      $num_roles = $arr['election_numroles'];
       $expiry_dt = $arr['election_expirydate'] . " " . $arr['election_expirytime'];
 
       $this->connect();
       $tbl = 'elections';
-      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`title`,`description`,`department`,`num_candidates`,`expiry_date`) VALUES (:title, :description, :department, :num_candidates, :expiry_date);");
+      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`title`,`description`,`department`,`num_candidates`,`num_roles`,`expiry_date`) VALUES (:title, :description, :department, :num_candidates, :num_roles, :expiry_date);");
       $stmt->bindParam(":title",$title,PDO::PARAM_STR);
       $stmt->bindParam(":description",$description,PDO::PARAM_STR);
       $stmt->bindParam(":department",$department,PDO::PARAM_STR);
       $stmt->bindParam(":num_candidates",$num_candidates,PDO::PARAM_INT);
+      $stmt->bindParam(":num_roles",$num_roles,PDO::PARAM_INT);
       $stmt->bindParam(":expiry_date",$expiry_dt,PDO::PARAM_STR);
       $stmt->execute();
       $this->close();
