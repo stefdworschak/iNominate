@@ -11,3 +11,4 @@
 
 <!-- Custom JavaScript files -->
 <script src="core/js/index_script.js"></script>
+<script src="core/js/create_election.js"></script>
