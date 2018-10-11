@@ -9,7 +9,7 @@
     $stmt=$c->conn->prepare($str);
     $stmt->execute();
 
-    $str = "CREATE TABLE IF NOT EXISTS `elections3` (`id` int(11) NOT NULL AUTO_INCREMENT,";
+    $str = "CREATE TABLE IF NOT EXISTS `elections` (`id` int(11) NOT NULL AUTO_INCREMENT,";
     $str .= "`title` varchar(50) NOT NULL, ";
     $str .= "`description` tinytext NOT NULL,";
     $str .= "`department` varchar(32) NOT NULL,";
