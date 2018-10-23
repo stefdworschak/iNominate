@@ -7,6 +7,7 @@ $(document).ready(function(){
 
   $('#loginBtn').click(function(){
     event.preventDefault();
+    //add error hanling
     window.location.href="index.php?mode=login";
   })
 
@@ -102,6 +103,6 @@ $(document).ready(function(){
 
   })
 
-  electionHandler();  
+  electionHandler();
 
 })
