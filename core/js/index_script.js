@@ -31,8 +31,17 @@ $(document).ready(function(){
       function callback(res){
         console.log(res);
         var $src = JSON.parse(res);
-        $('#org').autocomplete({ source: $src });
-        $orgs = res;
+        var $arr =[];
+        for(c=0;c<$src.length;c++){
+          $arr.push($src[c].org);
+        }
+        $('#org').autocomplete({ source: $arr });
+
+        //['Accenture','peter']
+        //[{"org":"Accenture","0":"Accenture"},{"org":"peter","0":"peter"}]
+
+        console.log($arr)
+        $orgs = $arr;
       }
 
     } else {

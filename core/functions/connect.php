@@ -69,6 +69,16 @@ class DBClass extends DBSettings
       return $exists;
     }
 
+    function checkOrg() {
+      $this->connect();
+      $tbl = 'users';
+      $stmt = $this->conn->prepare("SELECT `org` FROM `{$tbl}`;");
+      $stmt->execute();
+      $f = $stmt->fetchAll();
+      $this->close();
+      return $f;
+    }
+
     function register($arr){
         $email_address = $arr['emailaddress'];
         $first_name = $arr['first_name'];
@@ -94,6 +104,18 @@ class DBClass extends DBSettings
         $this->close();
 
         return true;
+    }
+
+    function reset($userid, $password){
+      $this->connect();
+      $tbl ='users';
+      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `password` = :password WHERE `id` = :userid;");
+      $stmt->bindParam(":password",createHash($password),PDO::PARAM_STR);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_STR);
+      $stmt->execute();
+      $this->close();
+
+      return true;
     }
 
     function imgLink($id, $link){

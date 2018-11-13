@@ -31,7 +31,12 @@
               include('core/views/register.php');
           } else if($mode == 'login') {
               include('core/views/login.php');
-          } else {
+          } else if($mode == 'forgot') {
+              include('core/views/forgot.php');
+          }else if($mode == 'reset') {
+              include('core/views/reset.php');
+          }
+          else {
               include('core/views/login.php');
           }
 

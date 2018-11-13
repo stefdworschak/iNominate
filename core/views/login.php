@@ -17,14 +17,13 @@
             <label for="exampleInputPassword1">Password</label>
             <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
           </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-          </div>
+          <div>
+          <a href="index.php?mode=forgot">Forgot Password</a>&nbsp;
+        </div>
+      </br>
           <button type="submit" class="btn btn-primary">Sign In</button>&nbsp;
           <button id="registerBtn" class="btn btn-danger">Register</button>
         </form>
-
       </div>
       <div class="col-md-4 col-lg-4">
             &nbsp;

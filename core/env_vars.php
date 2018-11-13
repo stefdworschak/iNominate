@@ -1,5 +1,6 @@
 <?php
 
+$ENVIROMENT_PATH ="http://localhost/iNominate/";
 
     class DBSettings {
 
@@ -9,7 +10,7 @@
           // Variable to decide if development environment is used or production
           // $m = 1     for production
           // $m = 0     for development
-          $m = 1;
+          $m = 0;
           $url = ($m < 1 ? '' : parse_url(getenv("CLEARDB_DATABASE_URL")));
 
           $settings['server'] = ($m < 1 ? 'localhost' : $url["host"]);

@@ -18,7 +18,8 @@
         } else if($_POST['password'] !== $_POST['password1']){
           echo "Passwords not matching";
           header('Location:../../index.php?mode=register&err=passwords_not_matching');
-        } else {
+        }
+         else {
           $registered = $c->register($_POST);
           $user_data = $c->fetchUserData($_POST['emailaddress']);
           session_start();
