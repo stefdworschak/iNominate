@@ -2,6 +2,32 @@
   require('core/env_vars.php');
   require('core/functions/connect.php');
 
+  echo "
+    <textarea id='query_body' name='query' style='width:350px;height:100px;'></textarea>
+    <br><button id='run_query'>Run Query</button>
+    <div id='query_output'></div>
+    <script src='core/js/jquery.min.js'></script>
+    <script>
+    $('#run_query').click(function(){
+      var frm = new FormData();
+      frm.append('query',$('#query_body').val());
+      $.ajax({
+        url:'alter_table.php',
+        type:'POST',
+        data:frm,
+        processData: false,
+        contentType: false,
+        success:function(res){
+          $('#query_output').text(res);
+        }
+      });
+    })
+    </script>
+
+    <br /><br />
+  ";
+
+
   echo "<table style='border: solid 1px black; text-align:center;'>";
   echo "<tr><th>Tables</th></tr>";
 
