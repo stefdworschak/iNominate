@@ -17,7 +17,7 @@
     );
     ";*/
   //  $tbl3 = "DROP TABLE `inbox`;";
-    $tbl2 = "
+    /*$tbl2 = "
     CREATE TABLE `inbox` (
       `message_id` INT AUTO_INCREMENT NOT NULL,
       `from_id` INT NOT NULL,
@@ -27,10 +27,11 @@
       `message_read` TINYINT(1),
       `sent` timestamp DEFAULT CURRENT_TIMESTAMP,
       `seen` timestamp DEFAULT CURRENT_TIMESTAMP,
-      `thread_id` INT NOT NULL,
+      `thread_id` INT NULL,
       PRIMARY KEY(`message_id`)
     );
-    ";
+    */
+    $tbl4 = "ALTER TABLE `inbox` CHANGE `thread_id` `thread_id` INT NULL;"
 
  /*$insert1="
     INSERT INTO `profiles` (`profile_id`, `user_id`, `election_id`, `mission_statement`, `policies`, `areas_of_interest`) VALUES
@@ -44,7 +45,7 @@
     //$stmt=$c->conn->prepare($tbl1);
     //$stmt->execute();
 
-    $stmt2=$c->conn->prepare($tbl2);
+    $stmt2=$c->conn->prepare($tbl4);
     $stmt2->execute();
     //$stmt3=$c->conn->prepare($tbl3);
     //$stmt3->execute();
