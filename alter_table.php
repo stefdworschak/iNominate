@@ -27,7 +27,7 @@
       `message_read` TINYINT(1),
       `sent` timestamp DEFAULT CURRENT_TIMESTAMP,
       `seen` timestamp DEFAULT CURRENT_TIMESTAMP,
-      `thread_id` INT NULL,
+      `thread_id` INT,
       PRIMARY KEY(`message_id`)
     );
     ";
