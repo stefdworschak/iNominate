@@ -208,7 +208,7 @@ class DBClass extends DBSettings
     function numMessages($id){
       $this->connect();
       $tbl='inbox';
-      $stmt=$this->conn->prepare("SELECT `message_id` FROM `inbox` WHERE `to_id` = :id AND `message_read` = 0;");
+      $stmt=$this->conn->prepare("SELECT `message_id` FROM `inbox` WHERE `to_id` = :id AND `message_read` IS NULL;");
       $stmt->bindParam(":id",$id,PDO::PARAM_INT);
       $stmt->execute();
       $result=$stmt->rowCount();
