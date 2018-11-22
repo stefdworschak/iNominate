@@ -159,6 +159,111 @@ class DBClass extends DBSettings
         return $return;
     }
 
+    function getCandidates(){
+      $this->connect();
+      $tbl='profiles';
+      $stmt=$this->conn->prepare("SELECT a.`profile_id`, CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`org`,b.`img_link`, c.`title` AS election_title, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id`");
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result;
+
+    }
+
+    function getCandidateProfile($id){
+      $this->connect();
+      $tbl='profiles';
+      $stmt=$this->conn->prepare("SELECT a.`profile_id`, a.`user_id`, a.`mission_statement`,a.`policies`,a.`areas_of_interest`,CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`user_type`,b.`org`,b.`img_link`, c.`title` AS election_title, c.`description` AS election_description, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id` WHERE a.`profile_id` = :id");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result[0];
+
+    }
+
+    function sendMessage($from, $to, $subject, $msg, $thid){
+        $this->connect();
+        $tbl='inbox';
+        $stmt=$this->conn->prepare("INSERT INTO `inbox` (`from_id`,`to_id`,`subject`,`message`) VALUES (:from_id, :to_id, :subject, :msg);");
+        $stmt->bindParam(":from_id",$from,PDO::PARAM_INT);
+        $stmt->bindParam(":to_id",$to,PDO::PARAM_INT);
+        $stmt->bindParam(":subject",$subject,PDO::PARAM_STR);
+        $stmt->bindParam(":msg",$msg,PDO::PARAM_STR);
+        $stmt->execute();
+
+        //Retrieve the new message_id
+        $stmt_id=$this->conn->lastInsertId();
+
+        //Update record with thread_id
+        $update=$this->conn->prepare("UPDATE `inbox` SET `thread_id`= :thread_id WHERE `message_id` = :message_id");
+        $thread_id = $thid == 0 ? $stmt_id . $from . $to : $thid;
+        $update->bindParam(":thread_id",$thread_id,PDO::PARAM_INT);
+        $update->bindParam(":message_id",$stmt_id,PDO::PARAM_INT);
+        $update->execute();
+        $this->close();
+        return true;
+    }
+
+    function numMessages($id){
+      $this->connect();
+      $tbl='inbox';
+      $stmt=$this->conn->prepare("SELECT `message_id` FROM `inbox` WHERE `to_id` = :id AND `message_read` = 0;");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->rowCount();
+      $this->close();
+      return $result;
+    }
+
+    function allMessages($id){
+      $this->connect();
+      $tbl='inbox';
+      //Currently limited to the last 100 msgs
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`to_id` = :id ORDER BY a.`sent` DESC LIMIT 100;");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result;
+    }
+
+    function allSent($id){
+      $this->connect();
+      $tbl='inbox';
+      //Currently limited to the last 100 msgs
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`from_id` = :id ORDER BY a.`sent` DESC LIMIT 100;");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result;
+    }
+
+    function getMessage($id, $userid){
+      $this->connect();
+      $tbl='inbox';
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`message_id` = :id AND (a.`from_id` = :userid OR a.`to_id` = :userid);");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result[0];
+    }
+
+    function messageRead($id, $userid){
+      $this->connect();
+      $tbl='inbox';
+      $stmt=$this->conn->prepare("UPDATE `inbox` SET `message_read` = 1, `seen` = CURRENT_TIMESTAMP() WHERE `message_id` = :id AND `to_id`= :userid;");
+      $stmt->bindParam(":id",$id,PDO::PARAM_INT);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $count=$stmt->rowCount();
+      $this->close();
+      return $count;
+    }
+
 }
 
   $c = new DBClass;

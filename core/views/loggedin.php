@@ -3,13 +3,13 @@
 ?>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2 col-lg-2">
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 col-xl-2">
     <?php
         include('left_pane.php');
     ?>
 
   </div>
-  <div class="col-md-9 col-lg-9">
+  <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 col-xl-9">
 
   <?php
     $view = isset($_GET['view']) ? $_GET['view'] : 'index';
@@ -25,6 +25,12 @@
         include('includes/admin_panel.php');
     } else if($view == 'create_election') {
         include('includes/create_election.php');
+    }  else if($view == 'inbox') {
+        include('includes/inbox.php');
+    } else if($view == 'outbox') {
+        include('includes/outbox.php');
+    } else if($view == 'message') {
+        include('includes/message.php');
     } else {
         include('includes/loggedin_main.php');
     }
@@ -36,5 +42,5 @@
 </div>
 
 <!-- Spacer so that the page does not end at the very right -->
-<div class="col-md-2 col-lg-2">
+<div class="col-xs-12 col-sm-0 col-md-0 col-lg-0 col-xl-1">
 </div>

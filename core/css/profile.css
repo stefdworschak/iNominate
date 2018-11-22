@@ -12,3 +12,47 @@
 .profile_text {
   min-height:100px;
 }
+
+.single-row {
+    margin-bottom:20px;
+}
+
+.table-bordered {
+  font-size:0.9em;
+}
+
+#search, #search:focus, #inbox_search, #inbox_search:focus {
+  background-color:transparent;
+  border:0px solid gray;
+  padding:5px;
+  font-size:0.7em;
+  outline: none;
+  width:90%;
+}
+#search_div {
+  border:1px solid gray;
+  border-radius:5px;
+  float:right;
+}
+
+.fa-search{
+  vertical-align:middle;
+  color:gray;
+  cursor:pointer;
+  width:5%;
+  margin-right:10px;
+
+}
+.fa-search:hover {
+  vertical-align:middle;
+  color:#007bff;
+  cursor:pointer;
+}
+
+#contact_div, #reply_div {
+  display:none;
+}
+
+#contact {
+  margin-bottom:10px;
+}

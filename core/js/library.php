@@ -12,3 +12,6 @@
 <!-- Custom JavaScript files -->
 <script src="core/js/index_script.js"></script>
 <script src="core/js/create_election.js"></script>
+<script src="core/js/all_candidates.js"></script>
+<script src="core/js/profile.js"></script>
+<script src="core/js/inbox.js"></script>

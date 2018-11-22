@@ -49,6 +49,7 @@ body {
   color:black;
   cursor: pointer;
 }
+
 /*loggedin.php */
 
 /*upload_photo */
@@ -57,4 +58,45 @@ body {
   display:none;
 }
 
+.left-pane_name {
+  margin-bottom:0px;
+}
+.card-link+.card-link {
+  margin:0px;
+}
 /*upload_photo */
+
+/* inbox */
+.inbox {
+  background-color:#C0C0C0;
+  border-radius:10px;
+}
+.inbox:hover {
+  color:white;
+}
+.hide_message{
+  display:none;
+}
+.inbox_unread {
+  font-weight: bold;
+  cursor:pointer;
+}
+
+.inbox_read {
+  cursor:pointer;
+}
+.inbox_link:hover {
+  text-decoration: none !important;
+}
+/* inbox */
+
+/* message */
+.message_head {
+  margin-bottom:50px !important;
+}
+
+.message_row {
+  margin-bottom:20px !important;
+}
+.message_field:disabled{background-color:white !important;}
+/* message */

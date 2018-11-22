@@ -5,22 +5,46 @@
     $c->connect();
     //$stmt=$c->conn->prepare("ALTER TABLE `users` ADD `password` VARCHAR(100) AFTER `email_address`;");
 
-    $str = "DROP TABLE `elections`;";
-    $stmt=$c->conn->prepare($str);
+    $tbl1 = "
+    CREATE TABLE `profiles` (
+      `profile_id` INT AUTO_INCREMENT NOT NULL,
+      `user_id` INT NOT NULL,
+      `election_id` INT NOT NULL,
+      `mission_statement` TEXT,
+      `policies` TEXT,
+      `areas_of_interest` TEXT,
+      PRIMARY KEY(`profile_id`)
+    );
+    ";
+
+    $tbl2 = "
+    CREATE TABLE `inbox` (
+      `message_id` INT AUTO_INCREMENT NOT NULL,
+      `from_id` INT NOT NULL,
+      `to_id` INT NOT NULL,
+      `subject` VARCHAR(255),
+      `message` TEXT,
+      `message_read` TINYINT(1),
+      `sent` timestamp DEFAULT CURRENT_TIMESTAMP,
+      `seen` timestamp NULL,
+      PRIMARY KEY(`message_id`)
+    );
+    ";
+
+    $insert1="
+    INSERT INTO `profiles` (`profile_id`, `user_id`, `election_id`, `mission_statement`, `policies`, `areas_of_interest`) VALUES
+(1, 2, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum, lectus sit amet fermentum pulvinar, ex lorem lacinia velit, non tincidunt neque turpis eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et hendrerit eros, vitae cursus leo. Duis commodo sodales justo et eleifend. Sed placerat varius convallis. Maecenas a magna quis purus dictum scelerisque in vel nunc. Fusce in pretium dui, at fermentum mi. Cras purus neque, bibendum et nulla et, posuere sagittis erat. Quisque suscipit tortor nec arcu hendrerit aliquam. Duis nec aliquet dolor. Pellentesque sodales ligula ut tincidunt blandit. Cras nec nisi justo. Vestibulum laoreet, dui iaculis mattis sollicitudin, lacus purus pharetra nunc, non pulvinar sem risus quis magna.', 'Phasellus vestibulum venenatis enim, id scelerisque quam semper vitae. Quisque tincidunt nisi ac felis finibus gravida. Pellentesque suscipit placerat dolor vel iaculis. Donec tincidunt massa at congue gravida. Praesent fermentum, nibh non ultrices semper, lacus diam dapibus libero, sit amet viverra felis nunc in odio. Nunc vel orci in odio rutrum ultricies eget et mauris. Donec et ligula id sapien rutrum tristique ac sit amet risus. Pellentesque vel tellus pulvinar, pretium arcu sed, varius mi. Curabitur eleifend eget tellus vel vehicula.', 'Suspendisse pellentesque finibus augue, non feugiat ipsum aliquam non. Morbi dui sapien, rhoncus et vestibulum eget, congue at risus. Nullam quis enim laoreet, sagittis libero quis, gravida lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean in luctus diam. Aliquam magna lorem, sodales ac vestibulum nec, interdum sed felis. In hac habitasse platea dictumst. Praesent id dui rutrum, tempor enim non, egestas ligula. Donec dignissim cursus lectus non accumsan. Mauris auctor lorem at fermentum elementum. Nulla facilisi. Pellentesque nisl arcu, sodales eu odio in, condimentum sodales magna. Aliquam leo ligula, convallis vel ornare non, fringilla sit amet mauris.'),
+(2, 12, 2, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum, lectus sit amet fermentum pulvinar, ex lorem lacinia velit, non tincidunt neque turpis eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et hendrerit eros, vitae cursus leo. Duis commodo sodales justo et eleifend. Sed placerat varius convallis. Maecenas a magna quis purus dictum scelerisque in vel nunc. Fusce in pretium dui, at fermentum mi. Cras purus neque, bibendum et nulla et, posuere sagittis erat. Quisque suscipit tortor nec arcu hendrerit aliquam. Duis nec aliquet dolor. Pellentesque sodales ligula ut tincidunt blandit. Cras nec nisi justo. Vestibulum laoreet, dui iaculis mattis sollicitudin, lacus purus pharetra nunc, non pulvinar sem risus quis magna.', 'Phasellus vestibulum venenatis enim, id scelerisque quam semper vitae. Quisque tincidunt nisi ac felis finibus gravida. Pellentesque suscipit placerat dolor vel iaculis. Donec tincidunt massa at congue gravida. Praesent fermentum, nibh non ultrices semper, lacus diam dapibus libero, sit amet viverra felis nunc in odio. Nunc vel orci in odio rutrum ultricies eget et mauris. Donec et ligula id sapien rutrum tristique ac sit amet risus. Pellentesque vel tellus pulvinar, pretium arcu sed, varius mi. Curabitur eleifend eget tellus vel vehicula.', 'Suspendisse pellentesque finibus augue, non feugiat ipsum aliquam non. Morbi dui sapien, rhoncus et vestibulum eget, congue at risus. Nullam quis enim laoreet, sagittis libero quis, gravida lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean in luctus diam. Aliquam magna lorem, sodales ac vestibulum nec, interdum sed felis. In hac habitasse platea dictumst. Praesent id dui rutrum, tempor enim non, egestas ligula. Donec dignissim cursus lectus non accumsan. Mauris auctor lorem at fermentum elementum. Nulla facilisi. Pellentesque nisl arcu, sodales eu odio in, condimentum sodales magna. Aliquam leo ligula, convallis vel ornare non, fringilla sit amet mauris.'),
+(3, 22, 12, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum, lectus sit amet fermentum pulvinar, ex lorem lacinia velit, non tincidunt neque turpis eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et hendrerit eros, vitae cursus leo. Duis commodo sodales justo et eleifend. Sed placerat varius convallis. Maecenas a magna quis purus dictum scelerisque in vel nunc. Fusce in pretium dui, at fermentum mi. Cras purus neque, bibendum et nulla et, posuere sagittis erat. Quisque suscipit tortor nec arcu hendrerit aliquam. Duis nec aliquet dolor. Pellentesque sodales ligula ut tincidunt blandit. Cras nec nisi justo. Vestibulum laoreet, dui iaculis mattis sollicitudin, lacus purus pharetra nunc, non pulvinar sem risus quis magna.', 'Phasellus vestibulum venenatis enim, id scelerisque quam semper vitae. Quisque tincidunt nisi ac felis finibus gravida. Pellentesque suscipit placerat dolor vel iaculis. Donec tincidunt massa at congue gravida. Praesent fermentum, nibh non ultrices semper, lacus diam dapibus libero, sit amet viverra felis nunc in odio. Nunc vel orci in odio rutrum ultricies eget et mauris. Donec et ligula id sapien rutrum tristique ac sit amet risus. Pellentesque vel tellus pulvinar, pretium arcu sed, varius mi. Curabitur eleifend eget tellus vel vehicula.', 'Suspendisse pellentesque finibus augue, non feugiat ipsum aliquam non. Morbi dui sapien, rhoncus et vestibulum eget, congue at risus. Nullam quis enim laoreet, sagittis libero quis, gravida lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean in luctus diam. Aliquam magna lorem, sodales ac vestibulum nec, interdum sed felis. In hac habitasse platea dictumst. Praesent id dui rutrum, tempor enim non, egestas ligula. Donec dignissim cursus lectus non accumsan. Mauris auctor lorem at fermentum elementum. Nulla facilisi. Pellentesque nisl arcu, sodales eu odio in, condimentum sodales magna. Aliquam leo ligula, convallis vel ornare non, fringilla sit amet mauris.'),
+(4, 32, 12, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum, lectus sit amet fermentum pulvinar, ex lorem lacinia velit, non tincidunt neque turpis eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et hendrerit eros, vitae cursus leo. Duis commodo sodales justo et eleifend. Sed placerat varius convallis. Maecenas a magna quis purus dictum scelerisque in vel nunc. Fusce in pretium dui, at fermentum mi. Cras purus neque, bibendum et nulla et, posuere sagittis erat. Quisque suscipit tortor nec arcu hendrerit aliquam. Duis nec aliquet dolor. Pellentesque sodales ligula ut tincidunt blandit. Cras nec nisi justo. Vestibulum laoreet, dui iaculis mattis sollicitudin, lacus purus pharetra nunc, non pulvinar sem risus quis magna.', 'Phasellus vestibulum venenatis enim, id scelerisque quam semper vitae. Quisque tincidunt nisi ac felis finibus gravida. Pellentesque suscipit placerat dolor vel iaculis. Donec tincidunt massa at congue gravida. Praesent fermentum, nibh non ultrices semper, lacus diam dapibus libero, sit amet viverra felis nunc in odio. Nunc vel orci in odio rutrum ultricies eget et mauris. Donec et ligula id sapien rutrum tristique ac sit amet risus. Pellentesque vel tellus pulvinar, pretium arcu sed, varius mi. Curabitur eleifend eget tellus vel vehicula.', 'Suspendisse pellentesque finibus augue, non feugiat ipsum aliquam non. Morbi dui sapien, rhoncus et vestibulum eget, congue at risus. Nullam quis enim laoreet, sagittis libero quis, gravida lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean in luctus diam. Aliquam magna lorem, sodales ac vestibulum nec, interdum sed felis. In hac habitasse platea dictumst. Praesent id dui rutrum, tempor enim non, egestas ligula. Donec dignissim cursus lectus non accumsan. Mauris auctor lorem at fermentum elementum. Nulla facilisi. Pellentesque nisl arcu, sodales eu odio in, condimentum sodales magna. Aliquam leo ligula, convallis vel ornare non, fringilla sit amet mauris.'),
+(5, 42, 12, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus bibendum, lectus sit amet fermentum pulvinar, ex lorem lacinia velit, non tincidunt neque turpis eget massa. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et hendrerit eros, vitae cursus leo. Duis commodo sodales justo et eleifend. Sed placerat varius convallis. Maecenas a magna quis purus dictum scelerisque in vel nunc. Fusce in pretium dui, at fermentum mi. Cras purus neque, bibendum et nulla et, posuere sagittis erat. Quisque suscipit tortor nec arcu hendrerit aliquam. Duis nec aliquet dolor. Pellentesque sodales ligula ut tincidunt blandit. Cras nec nisi justo. Vestibulum laoreet, dui iaculis mattis sollicitudin, lacus purus pharetra nunc, non pulvinar sem risus quis magna.', 'Phasellus vestibulum venenatis enim, id scelerisque quam semper vitae. Quisque tincidunt nisi ac felis finibus gravida. Pellentesque suscipit placerat dolor vel iaculis. Donec tincidunt massa at congue gravida. Praesent fermentum, nibh non ultrices semper, lacus diam dapibus libero, sit amet viverra felis nunc in odio. Nunc vel orci in odio rutrum ultricies eget et mauris. Donec et ligula id sapien rutrum tristique ac sit amet risus. Pellentesque vel tellus pulvinar, pretium arcu sed, varius mi. Curabitur eleifend eget tellus vel vehicula.', 'Suspendisse pellentesque finibus augue, non feugiat ipsum aliquam non. Morbi dui sapien, rhoncus et vestibulum eget, congue at risus. Nullam quis enim laoreet, sagittis libero quis, gravida lacus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean in luctus diam. Aliquam magna lorem, sodales ac vestibulum nec, interdum sed felis. In hac habitasse platea dictumst. Praesent id dui rutrum, tempor enim non, egestas ligula. Donec dignissim cursus lectus non accumsan. Mauris auctor lorem at fermentum elementum. Nulla facilisi. Pellentesque nisl arcu, sodales eu odio in, condimentum sodales magna. Aliquam leo ligula, convallis vel ornare non, fringilla sit amet mauris.');
+    "
+
+    $stmt=$c->conn->prepare($tbl1);
     $stmt->execute();
-
-    $str = "CREATE TABLE IF NOT EXISTS `elections` (`id` int(11) NOT NULL AUTO_INCREMENT,";
-    $str .= "`title` varchar(50) NOT NULL, ";
-    $str .= "`description` tinytext NOT NULL,";
-    $str .= "`department` varchar(32) NOT NULL,";
-    $str .= "`num_candidates` int(6) NOT NULL,";
-    $str .= "`num_roles` int(6) NOT NULL,";
-    $str .= "`expiry_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,";
-    $str .= "`creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,";
-    $str .= "PRIMARY KEY(id)";
-    $str .= ");";
-
-    $stmt=$c->conn->prepare($str);
+    $stmt=$c->conn->prepare($tbl2);
+    $stmt->execute();
+    $stmt=$c->conn->prepare($insert1);
     $stmt->execute();
     $c->close();
  ?>
