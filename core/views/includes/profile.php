@@ -54,6 +54,7 @@
                 <input type="hidden" value="<?php echo $_SESSION['xssid']; ?>" name="xssid" />
                 <input type="hidden" value="<?php echo $_SESSION['userid']; ?>" name="from_id" />
                 <input type="hidden" value="<?php echo $pro['user_id']; ?>" name="to_id" />
+                <input type="hidden" value="<?php echo $id; ?>" name="profile_id" />
                 <input type="hidden" value=0 name="thread_id" />
                 <input class="form-control" type="text" placeholder="Subject" name="subject" style="width:60%; margin-bottom:10px;" />
                 <textarea class="form-control" id="contact" style="width:60%;height:100px;" name="message" placeholder="Messge"></textarea>
