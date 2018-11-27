@@ -25,6 +25,9 @@
                                 if( $error == 'forgot' ){
                                   echo " Email does not exist";
                                   }
+                                  elseif ($error =='timestamp') {
+                                    echo " Link has expired, please request again";
+                                  }
                                   ?>
                         <span>
                      </div>

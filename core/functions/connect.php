@@ -117,6 +117,30 @@ class DBClass extends DBSettings
 
       return true;
     }
+    function updatename($userid, $first_name, $last_name){
+      $this->connect();
+      $tbl ='users';
+      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `first_name` = :firstname, `last_name` = :lastname WHERE `id` = :userid;");
+      $stmt->bindParam(":firstname",$first_name,PDO::PARAM_STR);
+      $stmt->bindParam(":lastname",$last_name,PDO::PARAM_STR);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $result = $stmt->rowCount();
+      $this->close();
+
+      return $result;
+    }
+    function updatemail($userid, $email_address){
+      $this->connect();
+      $tbl ='users';
+      $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `email_address` = :e_mail WHERE `id` = :userid;");
+      $stmt->bindParam(":e_mail",$email_address,PDO::PARAM_STR);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $this->close();
+
+      return true;
+    }
 
     function imgLink($id, $link){
       $this->connect();

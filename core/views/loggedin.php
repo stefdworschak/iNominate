@@ -31,6 +31,8 @@
         include('includes/outbox.php');
     } else if($view == 'message') {
         include('includes/message.php');
+    } else if($view == 'Acc_Details') {
+        include('includes/Acc_Details.php');
     } else {
         include('includes/loggedin_main.php');
     }

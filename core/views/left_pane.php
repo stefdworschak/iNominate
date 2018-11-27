@@ -16,9 +16,8 @@
         <i><?php echo $_SESSION['org']; ?></i>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a href="">My Account</a></li>
+        <li class="list-group-item"><a href="index.php?view=Acc_Details">My Account</a></li>
         <li class="list-group-item deactivated">Candidate Profile</li>
-        <li class="list-group-item">Reset Password</li>
       </ul>
       <div class="card-body">
         <a href="#" class="card-link">Favourites</a> | <a href="#" class="card-link">News Feed</a>

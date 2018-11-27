@@ -1,3 +1,11 @@
+<?php
+$timestamp = $_GET['ts'];
+$cur_time = time();
+$sec = 10800;
+if($cur_time - $timestamp > $sec){
+  header("Location:index.php?mode=forgot&err=timestamp");
+}
+ ?>
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-lg-4">

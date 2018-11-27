@@ -18,6 +18,8 @@
           header('Location:../../index.php?mode=forgot&err=forgot');
         }
          else {
+           $time = time();
+           $link = '<a href="'.$ENVIROMENT_PATH.'index.php?mode=reset&userid=' . $userid . '&ts='.$time.'" class="button button--green" target="_blank">Reset your password</a>';
            $to      = ($_POST['emailaddress']);
            $user= $c->fetchUserData($to);
            $userid = $user["id"];
@@ -434,19 +436,16 @@
                                <td class="content-cell">
                                  <h1>Hi '.$firstName.',</h1>
                                  <p>You recently requested to reset your password for your iNominate account. Use the button below to reset it. <strong>This password reset is only valid for the next 24 hours.</strong></p>
-                                 <!-- Action -->
                                  <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
                                    <tr>
                                      <td align="center">
-                                       <!-- Border based button
-                                  https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                          <tr>
                                            <td align="center">
                                              <table border="0" cellspacing="0" cellpadding="0">
                                                <tr>
                                                  <td>
-                                                   <a href="'.$ENVIROMENT_PATH.'index.php?mode=reset&userid=' . $userid . '" class="button button--green" target="_blank">Reset your password</a>
+                                                 '.$link.'
                                                  </td>
                                                </tr>
                                              </table>
