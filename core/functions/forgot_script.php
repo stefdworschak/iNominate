@@ -20,7 +20,7 @@
          else {
            $time = time();
            $link = '<a href="'.$ENVIROMENT_PATH.'index.php?mode=reset&userid=' . $userid . '&ts='.$time.'" class="button button--green" target="_blank">Reset your password</a>';
-           $to      = ($_POST['emailaddress']);
+           $to = ($_POST['emailaddress']);
            $user= $c->fetchUserData($to);
            $userid = $user["id"];
            $firstName =$user["first_name"];
@@ -476,7 +476,7 @@
                'X-Mailer: PHP/' . phpversion();
            if(!mail($to, $subject, $message, $headers)){
             echo "Error !!";
-           }else{
+           } else{
             echo "Email Sent !!";
            }
         header('Location:../../index.php?mode=forgot&err=email_sent');

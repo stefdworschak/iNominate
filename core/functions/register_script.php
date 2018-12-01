@@ -29,6 +29,7 @@
           $_SESSION['email_address'] = $user_data['email_address'];
           $_SESSION['user_type'] = $user_data['user_type'];
           $_SESSION['org'] = $user_data['org'];
+          $_SESSION['department'] = $user_data['department'];
           $_SESSION['img_link'] = $user_data['img_link'];
           header('Location:../../index.php');
           }

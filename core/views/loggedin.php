@@ -14,7 +14,8 @@
   <?php
     $view = isset($_GET['view']) ? $_GET['view'] : 'index';
     if($view == 'index'){
-        include('includes/loggedin_main.php');
+        include('includes/all_elections.php');
+        //include('includes/loggedin_main.php');
     } else if($view == 'candidates') {
         include('includes/all_candidates.php');
     }  else if($view == 'profile') {
@@ -33,8 +34,11 @@
         include('includes/message.php');
     } else if($view == 'Acc_Details') {
         include('includes/Acc_Details.php');
+    } else if($view == 'create_candidate'){
+        include('includes/create_candidate_profile.php');
     } else {
-        include('includes/loggedin_main.php');
+        include('includes/all_elections.php');
+        //include('includes/loggedin_main.php');
     }
 
    ?>

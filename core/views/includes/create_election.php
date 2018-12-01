@@ -59,7 +59,8 @@
               </div>-->
             </div>
 
-            <input type="hidden" value="<?php echo $_SESSION['userid']; ?>" name="election_creation" />
+            <input type="hidden" value="<?php echo $_SESSION['userid']; ?>" name="createdby" />
+            <input type="hidden" value="<?php echo $_SESSION['org']; ?>" name="org" />
             <button type="submit" class="btn btn-primary" id="createEleBtn">Create Election</button> &nbsp;
             <button id="cancelEleBtn" class="btn btn-danger">Cancel</button>
 

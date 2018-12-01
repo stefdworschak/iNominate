@@ -49,7 +49,7 @@ class DBClass extends DBSettings
     function fetchUserData($user){
       $this->connect();
       $tbl = 'users';
-      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`org`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`org`,`department`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
       $stmt->bindParam(":username",$user,PDO::PARAM_STR);
       $stmt->execute();
       $f = $stmt->fetchAll();
@@ -84,6 +84,7 @@ class DBClass extends DBSettings
         $first_name = $arr['first_name'];
         $last_name = $arr['last_name'];
         $user_type = $arr['user_type'];
+        $department = $arr['department'];
         $org = $arr['org'];
         echo "<br>before pw";
         $password = createHash($arr['password']);
@@ -93,13 +94,14 @@ class DBClass extends DBSettings
         echo "<br>afterpw";
         $this->connect();
         $tbl = 'users';
-        $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`org`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type,:org, CURRENT_TIMESTAMP());");
+        $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`email_address`,`first_name`,`last_name`,`password`,`user_type`,`org`,`department`,`registration_date`) VALUES(:email_address, :first_name, :last_name, :password, :user_type,:org,:department, CURRENT_TIMESTAMP());");
         $stmt->bindParam(":email_address",$email_address,PDO::PARAM_STR);
         $stmt->bindParam(":first_name",$first_name,PDO::PARAM_STR);
         $stmt->bindParam(":last_name",$last_name,PDO::PARAM_STR);
         $stmt->bindParam(":password",$password,PDO::PARAM_STR);
         $stmt->bindParam(":user_type",$user_type,PDO::PARAM_STR);
         $stmt->bindParam(":org",$org,PDO::PARAM_STR);
+        $stmt->bindParam(":department",$department,PDO::PARAM_STR);
         $stmt->execute();
         $this->close();
 
@@ -164,16 +166,20 @@ class DBClass extends DBSettings
           $num_candidates = $arr['election_numcandidates'];
           $num_roles = $arr['election_numroles'];
           $expiry_dt = $arr['election_expirydate'] . " " . $arr['election_expirytime'];
+          $org = $arr['org'];
+          $createdby = $arr['createdby'];
 
           $this->connect();
           $tbl = 'elections';
-          $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`title`,`description`,`department`,`num_candidates`,`num_roles`,`expiry_date`) VALUES (:title, :description, :department, :num_candidates, :num_roles, :expiry_date);");
+          $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`title`,`description`,`department`,`num_candidates`,`num_roles`,`expiry_date`,`createdby`,`org`) VALUES (:title, :description, :department, :num_candidates, :num_roles, :expiry_date, :createdby, :org);");
           $stmt->bindParam(":title",$title,PDO::PARAM_STR);
           $stmt->bindParam(":description",$description,PDO::PARAM_STR);
           $stmt->bindParam(":department",$department,PDO::PARAM_STR);
           $stmt->bindParam(":num_candidates",$num_candidates,PDO::PARAM_INT);
           $stmt->bindParam(":num_roles",$num_roles,PDO::PARAM_INT);
           $stmt->bindParam(":expiry_date",$expiry_dt,PDO::PARAM_STR);
+          $stmt->bindParam(":createdby",$createdby,PDO::PARAM_INT);
+          $stmt->bindParam(":org",$org,PDO::PARAM_STR);
           $stmt->execute();
           $this->close();
           $return = true;
@@ -183,10 +189,25 @@ class DBClass extends DBSettings
         return $return;
     }
 
-    function getCandidates(){
+    function getCandidates($org){
+      //Add to only retrieve for current company
       $this->connect();
       $tbl='profiles';
-      $stmt=$this->conn->prepare("SELECT a.`profile_id`, CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`org`,b.`img_link`, c.`title` AS election_title, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id`");
+      $stmt=$this->conn->prepare("SELECT a.`profile_id`, CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`org`,b.`img_link`, c.`title` AS election_title, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id` WHERE c.`org` = :org");
+      $stmt->bindParam(":org",$org,PDO::PARAM_STR);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      $this->close();
+      return $result;
+
+    }
+
+    function getElections ($org){
+      //Add to only retrieve for cur){rent company
+      $this->connect();
+      $tbl='elections';
+      $stmt=$this->conn->prepare("SELECT * FROM `{$tbl}` WHERE `org` = :org");
+      $stmt->bindParam(":org",$org,PDO::PARAM_STR);
       $stmt->execute();
       $result=$stmt->fetchAll();
       $this->close();
@@ -196,7 +217,6 @@ class DBClass extends DBSettings
 
     function getCandidateProfile($id){
       $this->connect();
-      $tbl='profiles';
       $stmt=$this->conn->prepare("SELECT a.`profile_id`, a.`user_id`, a.`mission_statement`,a.`policies`,a.`areas_of_interest`,CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`user_type`,b.`org`,b.`img_link`, c.`title` AS election_title, c.`description` AS election_description, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id` WHERE a.`profile_id` = :id");
       $stmt->bindParam(":id",$id,PDO::PARAM_INT);
       $stmt->execute();
@@ -286,6 +306,99 @@ class DBClass extends DBSettings
       $count=$stmt->rowCount();
       $this->close();
       return $count;
+    }
+
+    function checkCandidateExists($userid){
+      $this->connect();
+      $stmt=$this->conn->prepare("SELECT a.`user_id` FROM `profiles` AS a JOIN `elections` AS b ON a.`election_id` = b.`id` WHERE a.`user_id` = :userid AND b.`expiry_date` > CURRENT_TIMESTAMP()");
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $count=$stmt->rowCount();
+      $this->close();
+      return $count;
+    }
+
+    function updateCandidateProfile($arr){
+      try{
+          $user_id = $arr['userid'];
+          $election_id = $arr['election_id'];
+          $mission = $arr['mission_statement'];
+          $areas = $arr['areas_of_interest'];
+          $policies = $arr['policies'];
+          $motto = $arr['motto'];
+
+          $this->connect();
+          $tbl = 'profiles';
+          $stmt = $this->conn->prepare("UPDATE `{$tbl}` SET `election_id` = :election_id, `mission_statement` = :mission, `areas_of_interest` = :areas, `policies` = :policies, `motto` = :motto WHERE `user_id` = :user_id");
+          $stmt->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+          $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+          $stmt->bindParam(":mission",$mission,PDO::PARAM_STR);
+          $stmt->bindParam(":areas",$areas,PDO::PARAM_STR);
+          $stmt->bindParam(":policies",$policies,PDO::PARAM_STR);
+          $stmt->bindParam(":motto",$motto,PDO::PARAM_STR);
+          $stmt->execute();
+          $count = $stmt->rowCount();
+          $this->close();
+          return $count;
+        } catch(Exception $e) {
+          $return = $e->getMessage();
+        }
+    }
+    function createCandidateProfile($arr){
+      try{
+          $user_id = $arr['userid'];
+          $election_id = $arr['election_id'];
+          $mission = $arr['mission_statement'];
+          $areas = $arr['areas_of_interest'];
+          $policies = $arr['policies'];
+          $motto = $arr['motto'];
+
+          $this->connect();
+          $tbl = 'profiles';
+          $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`user_id`,`election_id`,`mission_statement`,`areas_of_interest`,`policies`,`motto`) VALUES(:user_id,:election_id,:mission,:areas,:policies,:motto)");
+          $stmt->bindParam(":user_id",$user_id,PDO::PARAM_INT);
+          $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+          $stmt->bindParam(":mission",$mission,PDO::PARAM_STR);
+          $stmt->bindParam(":areas",$areas,PDO::PARAM_STR);
+          $stmt->bindParam(":policies",$policies,PDO::PARAM_STR);
+          $stmt->bindParam(":motto",$motto,PDO::PARAM_STR);
+          $stmt->execute();
+          $this->close();
+          return true;
+        } catch(Exception $e) {
+          $return = $e->getMessage();
+        }
+    }
+
+    function getMyVotes($userid){
+        $this->connect();
+        $tbl='votes';
+        $stmt=$this->conn->prepare("SELECT * FROM `votes` WHERE `user_id` = :userid");
+        $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+        $this->close();
+        $arr = [];
+        for($i = 0; $i < sizeof($result); $i++){
+          array_push($arr,$result[$i]['election_id']);
+        }
+        return $arr;
+    }
+    function getMyElection($userid){
+        $this->connect();
+        $tbl='profiles';
+        $stmt=$this->conn->prepare("SELECT * FROM `profiles` WHERE `user_id` = :userid");
+        $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+        $this->close();
+        if($result == null) {
+          return $result;
+        } else {
+          $arr = $result[0];
+          return $arr['election_id'];
+        }
+
     }
 
 }

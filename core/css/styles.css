@@ -14,7 +14,7 @@ body {
   line-height: 1.5;
 }
 
-#orgDisplay {
+#orgDisplay, #deptDisplay {
   display:none;
 }
 
@@ -100,3 +100,9 @@ body {
 }
 .message_field:disabled{background-color:white !important;}
 /* message */
+
+/* All Elections */
+#regCandidate, #voteElection {
+  display:inline;
+}
+/* All Elections */

@@ -13,6 +13,7 @@ $(document).ready(function(){
 
   $('#UserType').change(function(){
     $('#orgDisplay').show();
+    $('#deptDisplay').show();
     var $sel = $('#UserType option:selected');
     if($sel.val() == 'voter') {
 
@@ -62,15 +63,17 @@ $(document).ready(function(){
       var $last = $('#LastName').val();
       var $usertype = $('#UserType').val();
       var $org = $('#org').val() == undefined ? '' : $('#org').val();
+      var $department = $('#department').val().toString() == '' ? '' : $('#department').val();
       var $pwd = $('#Password').val();
       var $pwd2 = $('#Password1').val();
 
-      if(!$email || !$first || !$last || $usertype == 'Please Select' || !$org || !$pwd || !$pwd2){
+      if(!$email || !$first || !$last || $usertype == 'Please Select' || !$org || !$pwd || !$pwd2 || !$department){
         if(!$email) { $('#email_err').text("Please enter an email address."); }
         if(!$first) { $('#last_err').text("Please enter your first name"); }
         if(!$last) { $('#first_err').text("Please enter your last name."); }
         if($usertype == 'Please Select') { $('#usertype_err').text("Please select a user type."); }
         if(!$org) { $('#org_err').text("Please enter your organization."); }
+        if(!$department) { $('#department_err').text("Please select a department."); }
         if(!$pwd) { $('#pwd_err').text("Please enter a password."); }
         if(!$pwd2) { $('#pwd2_err').text("Please confirm your password."); }
       } else if($pwd != $pwd2){
@@ -116,4 +119,5 @@ $(document).ready(function(){
   allCandidatesHandler();
   profileHandler();
   inboxHandler();
+  createProfileHandler();
 })

@@ -12,7 +12,7 @@
 
   $c = new DBClass;
   $loggedin = $c->checkLogin($emailaddress, $password);
-  //print_r($loggedin);
+
   if($loggedin === TRUE) {
     //echo "true";
     $user_data = $c->fetchUserData($emailaddress);
@@ -24,9 +24,13 @@
     $_SESSION['email_address'] = $user_data['email_address'];
     $_SESSION['user_type'] = $user_data['user_type'];
     $_SESSION['org'] = $user_data['org'];
+    $_SESSION['department'] = $user_data['department'];
     $_SESSION['img_link'] = $user_data['img_link'];
+    $_SESSION['existing_candidate']=1;
+    $my_election =$c->getMyElection($user_data['id']);
+    $_SESSION['my_election'] = $my_election;
     header('Location:../../index.php');
-  } else {
+    } else {
     header('Location:../../index.php?err=login_err');
   }
 

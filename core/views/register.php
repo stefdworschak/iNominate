@@ -34,6 +34,16 @@
             <label for="org">Organisation Name<span class="err_output" id="org_err"><span></label>
             <input type="text" class="form-control" name="org" id="org" placeholder="Organisation Name">
           </div>
+          <div class="form-group" id="deptDisplay">
+            <label for="department">Department<span class="err_output" id="department_err"><span></label>
+            <select multiple class="form-control"  id="department" name="department">
+              <option>Operations</option>
+              <option>Human Resources</option>
+              <option>Finance</option>
+              <option>IT/Business Intelligence</option>
+              <option>Project Management</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="Password">Password<span class="err_output" id="pwd_err"><span></label>
             <input type="password" name="password" class="form-control" id="Password" placeholder="Password">

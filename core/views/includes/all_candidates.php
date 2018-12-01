@@ -1,7 +1,7 @@
 <?php
 
   $c = new DBClass;
-  $all=$c->getCandidates();
+  $all=$c->getCandidates($_SESSION['org']);
   $html = "";
   $html .= '<div class="row">';
   for($i=0; $i < sizeof($all);$i++){
