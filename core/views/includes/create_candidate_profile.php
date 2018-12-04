@@ -5,7 +5,7 @@
       $_SESSION['existing_candidate']=1;
       $election_id = isset($_GET['election_id']) ? $_GET['election_id'] : 0;
       if($election_id == 0) {
-          header('Location:../../index.php?err=no_election_specified');
+          header('Location:index.php?err=no_election_specified');
       }
   }
  ?>

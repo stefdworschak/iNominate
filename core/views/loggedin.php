@@ -42,6 +42,8 @@
         include('includes/confirm_vote.php');
     } else if($view == 'select_candidate') {
         include('includes/select_candidate.php');
+    }  else if($view == 'election_results') {
+        include('includes/election_results.php');
     } else {
         include('includes/all_elections.php');
         //include('includes/loggedin_main.php');

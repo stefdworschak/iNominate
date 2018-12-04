@@ -4,6 +4,7 @@
   $all=$c->getElections($_SESSION['org']);
   $votes=$c->getMyVotes($_SESSION['userid']);
 
+  $path = 'core/functions/existing_candidate.php';
   $html = "";
   $curtime = time();
   $view = isset($_GET['eType']) ? $_GET['eType'] : 'current';
@@ -31,10 +32,10 @@
 
         $expired = strtotime($all[$i]['expiry_date']) < $curtime;
         //Disable candidate button if you are a candidate
-        print_r($_SESSION);
-        if($_SESSION['my_election'] == null && $expired != true){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>'; }
+        //print_r($_SESSION);
+        if($_SESSION['my_election'] == null && $expired != true){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>';}
         else if($_SESSION['my_election'] == $all[$i]['id']) { $candidated = '<button class="btn btn-primary" disabled>Registered as Candidate <i class="fas fa-check"></i></button>'; }
-        else { $candidated = ''; }
+        else { $candidated=''; }
 
         if(in_array($all[$i]['id'],$votes)){
           $voted = "<button class='btn btn-success' disabled>Voted <i class='fas fa-check'></i></button>";
@@ -42,6 +43,16 @@
           $voted = "<button class='btn btn-danger'>Vote!</button>";
         } else {
           $voted ="";
+        }
+
+        if($expired == true){
+          if($all[$i]['closed'] == 0) {
+            $path = "index.php?view=election_results&election_id=".$all[$i]['id'];
+            $candidated = "<button class='btn btn-primary' disabled>Waiting for Results</button>";
+          } else {
+            $candidated = "<button class='btn btn-primary'>View Results</button>";
+          }
+
         }
 
         $html .= "
@@ -54,7 +65,7 @@
                   <span class='badge badge-secondary'>" . $all[$i]['expiry_date'] .  "</span>&nbsp;
               </h5>
               <p class='card-text'>" . $all[$i]['description'] .  "</p>
-              <form id='regCandidate' method='POST' action='core/functions/existing_candidate.php' enctype='multipart/form-data'>
+              <form id='regCandidate' method='POST' action='". $path ."' enctype='multipart/form-data'>
                 <input type='hidden' value='". $all[$i]['id'] ."' name='election_id' />
                 " . $candidated . "
               </form>

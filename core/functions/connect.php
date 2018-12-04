@@ -202,7 +202,7 @@ class DBClass extends DBSettings
 
     }
 
-    function getElections ($org){
+    function getElections($org){
       //Add to only retrieve for cur){rent company
       $this->connect();
       $tbl='elections';
@@ -393,6 +393,27 @@ class DBClass extends DBSettings
         $result=$stmt->fetchAll();
         $this->close();
         if($result == null) {
+          $result=null;
+          return $result;
+        } else {
+          $arr = $result[0];
+          return $arr['election_id'];
+        }
+    }
+
+    function getMyElectionNew($userid){
+        $this->connect();
+        $tbl='profiles';
+        $stmt=$this->conn->prepare("SELECT a.*,b.`expiry_date` FROM `profiles` AS a JOIN `elections` AS b ON a.`election_id` = b.`id` WHERE `user_id` = :userid ORDER BY profile_id DESC LIMIT 1;");
+        $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+        $stmt->execute();
+        $result=$stmt->fetchAll();
+        $this->close();
+        if($result == null) {
+          $result=null;
+          return $result;
+        } else if(strtotime($result[0]['expiry_date']) < time() ) {
+          $result=null;
           return $result;
         } else {
           $arr = $result[0];
@@ -400,6 +421,7 @@ class DBClass extends DBSettings
         }
 
     }
+
     function enterVote($candidate_id, $election_id, $userid){
       $this->connect();
       $tbl = 'votes';

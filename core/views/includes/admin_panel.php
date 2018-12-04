@@ -12,26 +12,71 @@
           <a href="index.php?view=create_election" class="btn btn-primary btn-md">Create New Election</a>
           <br /><br />
 
+          <?php
+            $mode = isset($_GET['admin_mode']) ? $_GET['admin_mode'] : 'results';
+            if($mode == 'results') {
+                echo "<h5 class='card-title profile_subtitle'>Elections Results | <a href='index.php?view=admin_panel&admin_mode=ongoing'>Ongoing Elections</a> | <a href='index.php?view=admin_panel&admin_mode=past'>Past Elections</a></h5>";
+            } else if($mode == 'ongoing') {
+                echo "<h5 class='card-title profile_subtitle'><a href='index.php?view=admin_panel&admin_mode=results'>Election Results</a> | Ongoing Elections | <a href='index.php?view=admin_panel&admin_mode=past'>Past Elections</a></h5>";
+            } else {
+                echo "<h5 class='card-title profile_subtitle'><a href='index.php?view=admin_panel&admin_mode=results'>Election Results</a> | <a href='index.php?view=admin_panel&admin_mode=ongoing'>Ongoing Elections</a> | Past Elections</h5>";
+            }
 
-          <h5 class="card-title profile_subtitle">Ongoing Elections</h5>
+
+
+            $c = new DBClass;
+            $all=$c->getElections($_SESSION['org']);
+            $html='';
+            for($i=0;$i < sizeof($all); $i++){
+              if(strtotime($all[$i]['expiry_date']) <= time() && $all[$i]['closed'] == 0 && $mode == 'results'){
+                  $html .= "
+                  <div class='card main_card'>
+                    <h5 class='card-header'>" . $all[$i]['title'] ."</h5>
+                    <div class='card-body'>
+                      <!--<h5 class='card-title'></h5>-->
+                      <p class='card-text'>
+                        <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                        <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
+                      </p>
+                      <a href='#' class='btn btn-success btn-sm'>Confirm Results</a>
+                    </div>
+                  </div>
+
+                  ";
+              } else if(strtotime($all[$i]['expiry_date']) > time() && $mode == 'ongoing'){
+                $html .= "
+                <div class='card main_card'>
+                  <h5 class='card-header'>" . $all[$i]['title'] ."</h5>
+                  <div class='card-body'>
+                    <!--<h5 class='card-title'></h5>-->
+                    <p class='card-text'>
+                      <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                      <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
+                    </p>
+                    <a href='#' class='btn btn-warning btn-sm'>Edit</a>
+                  </div>
+                </div>
+                ";
+              } else if(strtotime($all[$i]['expiry_date']) <= time() && $all[$i]['closed'] == 1 && $mode == 'past') {
+                $html .= "
+                <div class='card main_card'>
+                  <h5 class='card-header'>" . $all[$i]['title'] ."</h5>
+                  <div class='card-body'>
+                    <!--<h5 class='card-title'></h5>-->
+                    <p class='card-text'>
+                      <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                      <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
+                    </p>
+                    <a href='#' class='btn btn-primary btn-sm'>View Results</a>
+                  </div>
+                </div>
+                ";
+              }
+            }
+            echo $html;
+           ?>
           <!--<p class="card-text profile_text">With supporting text below as a natural lead-in to additional content.</p>-->
-          <div class="card main_card">
-            <h5 class="card-header">Title</h5>
-            <div class="card-body">
-              <!--<h5 class="card-title"></h5>-->
-              <p class="card-text">
-                Number of Candidates: xxx <br>
-                Election expiry date: dd/mm/yyyy <br>
-              </p>
-              <a href="#" class="btn btn-warning btn-sm">Edit</a>
-            </div>
-          </div>
 
-
-
-          <h5 class="card-title profile_subtitle">Past Elections</h5>
-          <p class="card-text profile_text">With supporting text below as a natural lead-in to additional content.</p>
-        </div>
       </div>
     </div>
 </div>

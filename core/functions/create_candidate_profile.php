@@ -4,21 +4,15 @@
 
   if(!empty($_POST)) {
     $c = new DBClass();
-    $result = $c->updateCandidateProfile($_POST);
+    $result = $c->createCandidateProfile($_POST);
     if($result != 0){
       $_SESSION['my_election']=$_POST['election_id'];
-      header('Location:index.php?candidate_reg_success=true');
+      header('Location:../../index.php?candidate_reg_success=true');
     } else {
-      $result = $c->createCandidateProfile($_POST);
-      if($result != 0){
-        $_SESSION['my_election']=$_POST['election_id'];
-        header('Location:index.php?viewcandidate_reg_success=true');
-      } else {
-        header('Location:index.php?err=candidate_reg_err');
-      }
+        header('Location:../../index.php?err=candidate_reg_err');
     }
 
   } else {
-    header('Location:index.php');
+    header('Location:../../index.php');
   }
 ?>

@@ -27,9 +27,10 @@
     $_SESSION['department'] = $user_data['department'];
     $_SESSION['img_link'] = $user_data['img_link'];
     $_SESSION['existing_candidate']=1;
-    $my_election =$c->getMyElection($user_data['id']);
+    $my_election =$c->getMyElectionNew($user_data['id']);
     $_SESSION['my_election'] = $my_election;
-    //header('Location:../../index.php');
+    //print_r($my_election);
+    header('Location:../../index.php');
     } else {
     header('Location:../../index.php?err=login_err');
   }
