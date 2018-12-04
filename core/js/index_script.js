@@ -120,4 +120,5 @@ $(document).ready(function(){
   profileHandler();
   inboxHandler();
   createProfileHandler();
+  voteFlowHandler();
 })

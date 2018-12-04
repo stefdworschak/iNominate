@@ -26,19 +26,24 @@
     if($all[$i]['id'] != $failed_id){ $err = ''; }
     else { $err = $errors; }
 
-    //Disable candidate button if you are a candidate
-    if($_SESSION['my_election'] == null){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>'; }
-    else if($_SESSION['my_election'] == $all[$i]['id']) { $candidated = '<button class="btn btn-primary" disabled>Registered as Candidate <i class="fas fa-check"></i></button>'; }
-    else { $candidated = ''; }
+    if(($view == 'current' && strtotime($all[$i]['expiry_date']) >= $curtime)
+        || ($view == 'expired' && strtotime($all[$i]['expiry_date']) < $curtime)) {
 
-    if(in_array($all[$i]['id'],$votes)){
-      $voted = "<button class='btn btn-success' disabled>Voted <i class='fas fa-check'></i></button>";
-    } else {
-      $voted = "<button class='btn btn-danger'>Vote!</button>";
-    }
+        $expired = strtotime($all[$i]['expiry_date']) < $curtime;
+        //Disable candidate button if you are a candidate
+        print_r($_SESSION);
+        if($_SESSION['my_election'] == null && $expired != true){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>'; }
+        else if($_SESSION['my_election'] == $all[$i]['id']) { $candidated = '<button class="btn btn-primary" disabled>Registered as Candidate <i class="fas fa-check"></i></button>'; }
+        else { $candidated = ''; }
 
-      if(($view == 'current' && strtotime($all[$i]['expiry_date']) >= $curtime)
-          || ($view == 'expired' && strtotime($all[$i]['expiry_date']) < $curtime)) {
+        if(in_array($all[$i]['id'],$votes)){
+          $voted = "<button class='btn btn-success' disabled>Voted <i class='fas fa-check'></i></button>";
+        } else if($expired != true) {
+          $voted = "<button class='btn btn-danger'>Vote!</button>";
+        } else {
+          $voted ="";
+        }
+
         $html .= "
           <div class='card main_card'>
             <h5 class='card-header'>" . $all[$i]['title'] .  "</h5>
@@ -53,7 +58,7 @@
                 <input type='hidden' value='". $all[$i]['id'] ."' name='election_id' />
                 " . $candidated . "
               </form>
-              <form id='voteElection' method='POST' action='core/functions/vote.php' enctype='multipart/form-data'>
+              <form id='voteElection' method='POST' action='index.php?view=select_candidate' enctype='multipart/form-data'>
                   <input type='hidden' value='". $all[$i]['id'] ."' name='election_id' />
                   " . $voted . "
                 </form>
@@ -73,6 +78,10 @@
          <?php
             if($success === 'true'){
                 echo "<div class='alert alert-success' role='alert'>Your Candidate Profile was created successfully!</div>";
+            } else if($err_type == 'vote_success') {
+                echo "<div class='alert alert-success' role='alert'>Your Vote was registered successfully!</div>";
+            } else if($err_type == 'vote_success') {
+                echo "<div class='alert alert-danger' role='alert'>An unexpected error occurred! Your vote could not be registered.</div>";
             }
 
             if($view == 'current') {

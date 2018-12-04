@@ -206,7 +206,7 @@ class DBClass extends DBSettings
       //Add to only retrieve for cur){rent company
       $this->connect();
       $tbl='elections';
-      $stmt=$this->conn->prepare("SELECT * FROM `{$tbl}` WHERE `org` = :org");
+      $stmt=$this->conn->prepare("SELECT * FROM `{$tbl}` WHERE `org` = :org ORDER BY `expiry_date` DESC;");
       $stmt->bindParam(":org",$org,PDO::PARAM_STR);
       $stmt->execute();
       $result=$stmt->fetchAll();
@@ -399,6 +399,26 @@ class DBClass extends DBSettings
           return $arr['election_id'];
         }
 
+    }
+    function enterVote($candidate_id, $election_id, $userid){
+      $this->connect();
+      $tbl = 'votes';
+      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`candidate_id`,`election_id`,`user_id`) VALUES(:candidate_id,:election_id,:userid);");
+      $stmt->bindParam(":candidate_id",$candidate_id,PDO::PARAM_INT);
+      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->rowCount();
+      $this->close();
+      return $result;
+    }
+    function getElectionCandidates($election_id){
+      $this->connect();
+      $stmt=$this->conn->prepare("SELECT a.`profile_id`, a.`user_id`, a.`motto`,CONCAT(b.`first_name`,' ',b.`last_name`) AS candidate_name, b.`org`,b.`img_link`, c.`title` AS election_title, c.`department` AS election_department, c.`expiry_date` AS election_end FROM `profiles` AS a JOIN `users` AS b ON a.`user_id` = b.`id` JOIN `elections` AS c ON a.`election_id` = c.`id` WHERE a.`election_id` = :election_id");
+      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->fetchAll();
+      return $result;
     }
 
 }

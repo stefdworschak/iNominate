@@ -16,3 +16,4 @@
 <script src="core/js/profile.js"></script>
 <script src="core/js/inbox.js"></script>
 <script src="core/js/create_profile.js"></script>
+<script src="core/js/vote_flow.js"></script>

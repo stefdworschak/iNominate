@@ -106,3 +106,60 @@ body {
   display:inline;
 }
 /* All Elections */
+
+/* Vote Flow */
+input.otp {
+  /*padding-left: 15px;
+  letter-spacing: 42px;
+  border: 0;
+  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 35px;
+  width: 190px;
+  outline:none;
+  overflow: hidden;*/
+
+
+  width:30px;
+  font-size:18px;
+  font-weight: bold;
+  color:black;
+  text-align:center;
+  border:0px solid black;
+  border-bottom:2px solid lightgray;
+  outline: none;
+  padding:0px;
+  padding-bottom:2px;
+  margin-left:5px;
+  margin-right:5px;
+}
+input.otp:focus{
+    border-bottom:2px solid darkgray;
+}
+
+.custom-danger {
+  background-color:#ff6a6c !important;
+  border:0px solid #ff6a6c !important;
+}
+
+.next_btn {
+  display:inline;
+  width:auto;
+  float:right;
+}
+.next_btn a {
+  width:100px;
+}
+
+.selected_candidate {
+    border:3px solid gray!important;
+    background-color:#bcdde2!important;
+}
+#selected_candidate {
+  margin-right:20px;
+  font-size:0.8em;
+}
+
+/* Vote Flow */

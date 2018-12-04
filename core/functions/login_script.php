@@ -29,7 +29,7 @@
     $_SESSION['existing_candidate']=1;
     $my_election =$c->getMyElection($user_data['id']);
     $_SESSION['my_election'] = $my_election;
-    header('Location:../../index.php');
+    //header('Location:../../index.php');
     } else {
     header('Location:../../index.php?err=login_err');
   }

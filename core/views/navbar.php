@@ -13,8 +13,8 @@ $messages=$c->numMessages($_SESSION['userid']);
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" href="index.php?view=candidates">View Candidates</a>
+      <a class="nav-item nav-link active" href="index.php?view=elections">Elections <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="index.php?view=candidates">Candidates</a>
       <!--<a class="nav-item nav-link" href="#">View Elections</a>-->
       <a class="nav-item nav-link" href="#">Company Structure</a>
       <a class="nav-item nav-link" href="index.php?view=inbox">Inbox <span class="badge inbox"><?php echo $messages; ?></span></a>

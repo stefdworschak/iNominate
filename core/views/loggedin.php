@@ -1,5 +1,5 @@
 <?php
-  include('includes/navbar.php');
+  include('navbar.php');
 ?>
 <div class="container-fluid">
   <div class="row">
@@ -36,6 +36,12 @@
         include('includes/Acc_Details.php');
     } else if($view == 'create_candidate'){
         include('includes/create_candidate_profile.php');
+    } else if($view == 'elections'){
+        include('includes/all_elections.php');
+    } else if($view == 'confirm_vote') {
+        include('includes/confirm_vote.php');
+    } else if($view == 'select_candidate') {
+        include('includes/select_candidate.php');
     } else {
         include('includes/all_elections.php');
         //include('includes/loggedin_main.php');
