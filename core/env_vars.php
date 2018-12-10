@@ -2,7 +2,6 @@
 // $DEPLOYED = 1     for production
 // $DEPLOYED = 0     for development
 $ENVIROMENT_PATH ="http://localhost/iNominate/";
-$SENDGRID_APIKEY = "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";
 //$ENVIROMENT_PATH ="http://inominate-2018.herokuapp.com/";
 
     class DBSettings {

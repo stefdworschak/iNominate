@@ -590,7 +590,7 @@ class DBClass extends DBSettings
 
     function displayResults($election_id){
         $this->connect();
-
+        
 
         //This part is used for display results
         /*
