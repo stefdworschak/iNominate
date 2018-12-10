@@ -4,6 +4,7 @@
   try{
     ob_start();
     require('../init.php');
+    require('email.php');
     echo "required reps<br>";
 
     if(!empty($_POST)) {
@@ -474,12 +475,14 @@
             $headers  = 'MIME-Version: 1.0' . "\r\n";
           $headers = 'Content-type: text/html; charset=utf-8' . "\r\n";
                'X-Mailer: PHP/' . phpversion();
-           if(!mail($to, $subject, $message, $headers)){
+          $email_response = $EMAIL_VAR == 0 ? mail($to, $subject, $message, $headers) : sendEmail($to, $subject, $message);
+          // if(!mail($to, $subject, $message, $headers)){
+          if(!$email_response || $email_response != 202){
             echo "Error !!";
            } else{
             echo "Email Sent !!";
+            header('Location:../../index.php?mode=forgot&err=email_sent');
            }
-        header('Location:../../index.php?mode=forgot&err=email_sent');
       }
     }
 
