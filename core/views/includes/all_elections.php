@@ -13,6 +13,8 @@
   $success = isset($_GET['candidate_reg_success']) ? $_GET['candidate_reg_success'] : false;
   $err_type = isset($_GET['err']) ? $_GET['err'] : '';
 
+  print_r($all);
+
   if($err_type != ''){
     if($err_type == 'already_candidate'){
         $errors = "<div class='err_output'>You cannot register for more than one election at a time.</div>";
