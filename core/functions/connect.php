@@ -217,7 +217,7 @@ class DBClass extends DBSettings
     function getElections($org){
       //Add to only retrieve for cur){rent company
       $this->connect();
-      $stmt=$this->conn->prepare("SELECT e.*, p.`reg_candidates`, v.`num_votes` FROM `elections` AS e JOIN( SELECT `election_id`,COUNT(*) AS reg_candidates FROM `profiles` GROUP BY `election_id` ) AS p ON e.`id` = p.`election_id` JOIN ( SELECT `election_id`,COUNT(*) AS num_votes FROM `votes` GROUP BY `election_id` ) AS v ON e.`id` = v.`election_id` WHERE `org` = :org ORDER BY `expiry_date` DESC");
+      $stmt=$this->conn->prepare("SELECT e.*, p.`reg_candidates`, v.`num_votes` FROM `elections` AS e LEFT JOIN( SELECT `election_id`,COUNT(*) AS reg_candidates FROM `profiles` GROUP BY `election_id` ) AS p ON e.`id` = p.`election_id` LEFT JOIN ( SELECT `election_id`,COUNT(*) AS num_votes FROM `votes` GROUP BY `election_id` ) AS v ON e.`id` = v.`election_id` WHERE `org` = :org ORDER BY `expiry_date` DESC");
       $stmt->bindParam(":org",$org,PDO::PARAM_STR);
       $stmt->execute();
       $result=$stmt->fetchAll();
