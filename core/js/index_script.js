@@ -1,11 +1,11 @@
 $(document).ready(function(){
   var $orgs = null;
-  $('#registerBtn').click(function(){
+  $('#registerBtn').click(function(event){
     event.preventDefault();
     window.location.href="index.php?mode=register";
   })
 
-  $('#loginBtn').click(function(){
+  $('#loginBtn').click(function(event){
     event.preventDefault();
     //add error hanling
     window.location.href="index.php?mode=login";
@@ -51,7 +51,7 @@ $(document).ready(function(){
 
   });
 
-  $('#regBtn').click(function(){
+  $('#regBtn').click(function(event){
       event.preventDefault();
       var $errs = $('.err_output')
       $errs.text('');
@@ -121,4 +121,5 @@ $(document).ready(function(){
   inboxHandler();
   createProfileHandler();
   voteFlowHandler();
+  selectCandidateHandler();
 })

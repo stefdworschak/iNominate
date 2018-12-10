@@ -35,10 +35,14 @@
                     <div class='card-body'>
                       <!--<h5 class='card-title'></h5>-->
                       <p class='card-text'>
-                        <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                        <strong>Number of Votes:</strong> " . $all[$i]['num_votes'] ." <br>
+                        <strong>Number of Candidates:</strong> ". $all[$i]['reg_candidates'] ."/" . $all[$i]['num_candidates'] ." <br>
                         <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
                       </p>
-                      <a href='#' class='btn btn-success btn-sm'>Confirm Results</a>
+                      <form method='POST' action='core/functions/close_election.php' enctype='multipart/form-data' style='display:inline'>
+                      <input type='hidden' value='".$all[$i]['id']."' name='election_id' />
+                      <input type='submit'  class='btn btn-success btn-sm' value='Confirm Results' />
+                      </form>
                     </div>
                   </div>
 
@@ -50,7 +54,8 @@
                   <div class='card-body'>
                     <!--<h5 class='card-title'></h5>-->
                     <p class='card-text'>
-                      <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                      <strong>Number of Votes:</strong> " . $all[$i]['num_votes'] ." <br>
+                      <strong>Number of Candidates:</strong> ". $all[$i]['reg_candidates'] ."/" . $all[$i]['num_candidates'] ." <br>
                       <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
                     </p>
                     <a href='#' class='btn btn-warning btn-sm'>Edit</a>
@@ -64,7 +69,8 @@
                   <div class='card-body'>
                     <!--<h5 class='card-title'></h5>-->
                     <p class='card-text'>
-                      <strong>Number of Candidates:</strong> " . $all[$i]['num_candidates'] ." <br>
+                      <strong>Number of Votes:</strong> " . $all[$i]['num_votes'] ." <br>
+                      <strong>Number of Candidates:</strong> ". $all[$i]['reg_candidates'] ."/" . $all[$i]['num_candidates'] ." <br>
                       <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
                     </p>
                     <a href='#' class='btn btn-primary btn-sm'>View Results</a>

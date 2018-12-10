@@ -2,11 +2,21 @@
   ob_start();
   $message_id = isset($_GET['msg']) == '' || !isset($_GET['msg']) ? -1 : $_GET['msg'];
   if($message_id == -1){
+    echo $message_id;
     header('Location:index.php?view=inbox');
   } else {
     $row=$c->getMessage($message_id, $_SESSION['userid']);
+    $message = $row['message'];
+    preg_match_all('/(["]=?)(.*)?(?=["])/',$message, $li);
+    preg_match_all('/([(]=?)(.*)?(?=[)])/',$message, $l);
+    $link=$li[2][0];
+    $label=$l[2][0];
+    //$nm=preg_replace('/\[.*\)/','<a href="'.$link.'">'.$label.'</a>',$row['message']);
+    $nm = $message;
     if(sizeof($row) == 0){
-      header('Location:index.php?view=inbox');
+      echo $message_id;
+      echo $_SESSION['userid'];
+      //header('Location:index.php?view=inbox');
     } else {
       $c->messageRead($message_id, $_SESSION['userid']);
     }
@@ -62,7 +72,7 @@
             <div class="col-12">
                   <div class="form-group">
                   <!--  <label for="exampleFormControlTextarea1">Example textarea</label>-->
-                    <textarea class="form-control message_field" id="exampleFormControlTextarea1" rows="7" disabled><?php echo $row['message']; ?></textarea>
+                    <div class="form-control message_field" id="messageTextfield" style="white-space: pre-wrap; min-height:150px;" disabled><?php echo $nm; ?></div>
                   </div>
             </div>
 
@@ -78,13 +88,13 @@
        <div class="row message_row">
          <div class="col-12">
            <div class="form-group profile_text" id="reply_div">
-               <form method="POST" action="core/functions/send_message.php" enctype="multipart/form-data">
+             <form method="POST" action="core/functions/send_message.php" enctype="multipart/form-data">
                  <input type="hidden" value="<?php echo $_SESSION['xssid']; ?>" name="xssid" />
                  <input type="hidden" value="<?php echo $_SESSION['userid']; ?>" name="from_id" />
                  <input type="hidden" value="<?php echo $pro['from_id']; ?>" name="to_id" />
                  <input type="hidden" value="<?php echo $message_id . $_SESSION['userid'] . $pro['from_id']; ?>" name="thread_id" />
                  <input class="form-control" type="text" placeholder="Subject" name="subject" style="width:100%; margin-bottom:10px;" />
-                 <textarea class="form-control" id="contact" style="width:100%;height:100px;" name="message" placeholder="Messge"></textarea>
+                 <textarea class="form-control" id="contact" style="width:100%;height:100px;" name="message" placeholder="Messge" style="white-space: pre-wrap;"></textarea>
                  <input type="submit" value="Send" class="btn btn-success" />
                </form>
            </div>

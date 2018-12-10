@@ -5,18 +5,12 @@ require('../init.php');
 session_start();
 
 $str = random_str(8);
-//echo $str;
 
 $target_dir = "../uploads/profiles/" . $str .'/';
-//echo basename($_FILES["upload_photo"]["name"]);
-//$target_file = $target_dir . basename($_FILES["upload_photo"]["name"]);
 $target_file = $target_dir . $str . '.' . strtolower(pathinfo(basename($_FILES["upload_photo"]["name"]),PATHINFO_EXTENSION));
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 // Check if image file is a actual image or fake image
-//echo strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-//echo $target_dir;
-
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["upload_photo"]["tmp_name"]);
     if($check !== false) {

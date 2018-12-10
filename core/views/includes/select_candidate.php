@@ -33,6 +33,7 @@
                 <a href='index.php?view=profile&id='" . $candidates[$i]['profile_id'] . " class='btn btn-primary'>See Profile</a>
                 </div>
                 <div class='col-md-10'>
+                <div class='text-right multiplicator'></div>
                 </div>
               </div>
             </div>
@@ -45,26 +46,7 @@
 ?>
 <script>
   $(document).ready(function(){
-    $('.card.border-secondary.mb-3').click(function(){
-        $('#selected_candidate').html('');
-        $('.card.border-secondary.mb-3').each(function(){
-          $(this).removeClass('selected_candidate');
-        })
-        $(this).addClass('selected_candidate');
-        var $can = $($($($(this).children()[0]).children()[0]).children()[1]).children()[0].innerText;
-        var $can_id = $($($($(this).children()[0]).children()[0]).children()[1]).children()[2].innerText;
-        console.log(Number($can_id));
-        $('#selected_candidate').text('Selected: '+$can)
-        $('#candidate_id').val($can_id);
-    })
 
-    $('#frmCandidate').submit(function(){
-      console.log($('#candidate_id').val())
-      if(!$('#candidate_id').val()){
-        $('#selected_candidate').html('<span class="err_output" style="font-size:0.8em">Please select a candidate!</span>');
-        event.preventDefault();
-      }
-    })
   })
 </script>
 
@@ -73,10 +55,13 @@
   <div class="card profile_card">
     <h4 class="card-header">Select A Candidate
       <span class="next_btn"><span id="selected_candidate"></span>
+        <button class="btn btn-primary" id="clearCandidates" style="display:none;">x</button>
         <form method="POST" action="index.php?view=confirm_vote" enctype="multipart/form-data" style="display:inline;" id="frmCandidate">
           <input type="hidden" name="candidate_id" id="candidate_id" />
+          <input type="hidden" name="candidate_id2" id="candidate_id2" />
+          <input type="hidden" name="candidate_id3" id="candidate_id3" />
           <input type="hidden" name="election_id" id="election_id" value="<?php echo $election_id; ?>" />
-          <button class="btn btn-primary custom-danger">Next</button>
+          <button class="btn btn-primary custom-danger" disabled id="next">Next</button>
         </form>
       </span>
     </h4>

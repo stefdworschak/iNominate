@@ -31,6 +31,9 @@
           $_SESSION['org'] = $user_data['org'];
           $_SESSION['department'] = $user_data['department'];
           $_SESSION['img_link'] = $user_data['img_link'];
+          $_SESSION['position'] = null;
+          $_SESSION['existing_candidate'] = 0;
+          $_SESSION['my_election'] = null;
           header('Location:../../index.php');
           }
         } else {

@@ -12,13 +12,13 @@
 
           <form method="POST" action="core/functions/create_election.php" enctype="multipart/form-data" id="CreateElectionForm">
             <div class="form-group">
-              <label for="election_title">Title<span class="err_output" id="title_err"><span></label>
+              <label for="election_title">Position/Title<span class="err_output" id="title_err"><span></label>
               <input type="text" class="form-control" id="election_title" name="election_title" placeholder="Title" maxlength="50">
             </div>
 
             <div class="form-group">
               <label for="election_description">Description<span class="err_output" id="description_err"><span></label>
-              <textarea class="form-control" id="election_description" name="election_description" rows="3" maxlength="255"></textarea>
+              <textarea class="form-control" id="election_description" name="election_description" rows="3" maxlength="255" style="white-space: pre-wrap;"></textarea>
             </div>
 
             <div class="form-group">

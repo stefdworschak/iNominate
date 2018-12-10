@@ -13,7 +13,8 @@
       <i class="fas fa-edit edit_img"></i>
       <div class="card-body">
         <h5 class="card-title left-pane_name"><?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name']; ?></h5>
-        <i><?php echo $_SESSION['org']; ?></i>
+        <i><?php echo $_SESSION['org']?>
+        <?php echo $_SESSION['position'] == null ? '' : ' - '.$_SESSION['position']; ?></i>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a href="index.php?view=Acc_Details">My Account</a></li>

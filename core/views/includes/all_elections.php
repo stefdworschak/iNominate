@@ -3,6 +3,7 @@
   $c = new DBClass;
   $all=$c->getElections($_SESSION['org']);
   $votes=$c->getMyVotes($_SESSION['userid']);
+  $rep = $_SESSION['position'] == null ? 0 : 1;
 
   $path = 'core/functions/existing_candidate.php';
   $html = "";
@@ -30,13 +31,25 @@
     if(($view == 'current' && strtotime($all[$i]['expiry_date']) >= $curtime)
         || ($view == 'expired' && strtotime($all[$i]['expiry_date']) < $curtime)) {
 
+        $open = $all[$i]['reg_candidates'] < $all[$i]['num_candidates'];
         $expired = strtotime($all[$i]['expiry_date']) < $curtime;
-        //Disable candidate button if you are a candidate
-        //print_r($_SESSION);
-        if($_SESSION['my_election'] == null && $expired != true){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>';}
-        else if($_SESSION['my_election'] == $all[$i]['id']) { $candidated = '<button class="btn btn-primary" disabled>Registered as Candidate <i class="fas fa-check"></i></button>'; }
+        //Show "Register as Candidate" button
+        //If you have not already registered as candidate to an ongoing election
+        //If the election is still ongoing (we do not want people to register to expired elections)
+        //If the user is not already elected for a role
+        //If the number of registered candidates is not more as the number of slots set when
+        //creating the election
+        if($_SESSION['my_election'] == null && $expired != true && $rep != 1 && $open == true){ $candidated = '<button class="btn btn-primary">Register as Candidate</button>';}
+        //Else if the current election is the election that the user has registered as candidate
+        //And the user is not elected for a role
+        //If the number of registered candidates is not more as the number of slots set when
+        //creating the election
+        //Then display a disabled button saying "Registered as Candidate"
+        else if($_SESSION['my_election'] == $all[$i]['id'] && $rep != 1 && $open == true) { $candidated = '<button class="btn btn-primary" disabled>Registered as Candidate <i class="fas fa-check"></i></button>'; }
+        //Else don't display the button
         else { $candidated=''; }
 
+        //If the user has voted for the current election, display a disabled button titled "Voted"
         if(in_array($all[$i]['id'],$votes)){
           $voted = "<button class='btn btn-success' disabled>Voted <i class='fas fa-check'></i></button>";
         } else if($expired != true) {
@@ -50,6 +63,7 @@
             $path = "index.php?view=election_results&election_id=".$all[$i]['id'];
             $candidated = "<button class='btn btn-primary' disabled>Waiting for Results</button>";
           } else {
+            $path = "index.php?view=election_results&election_id=".$all[$i]['id'];
             $candidated = "<button class='btn btn-primary'>View Results</button>";
           }
 
@@ -61,8 +75,8 @@
             <div class='card-body'>
               <h5 class='card-title'>
                   <span class='badge badge-secondary'>" . $all[$i]['department'] .  "</span>&nbsp;
-                  <span class='badge badge-secondary'>0 of " . $all[$i]['num_candidates'] .  "</span>&nbsp;
-                  <span class='badge badge-secondary'>" . $all[$i]['expiry_date'] .  "</span>&nbsp;
+                  <span class='badge badge-secondary'>" . $all[$i]['reg_candidates'] . " of " . $all[$i]['num_candidates'] .  "</span>&nbsp;
+                  <span class='badge badge-secondary'>" . $all[$i]['expiry_date'] .  "</span><br />
               </h5>
               <p class='card-text'>" . $all[$i]['description'] .  "</p>
               <form id='regCandidate' method='POST' action='". $path ."' enctype='multipart/form-data'>

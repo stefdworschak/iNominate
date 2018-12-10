@@ -29,6 +29,7 @@
     $_SESSION['existing_candidate']=1;
     $my_election =$c->getMyElectionNew($user_data['id']);
     $_SESSION['my_election'] = $my_election;
+    $_SESSION['position'] = $user_data['position'];
     //print_r($my_election);
     header('Location:../../index.php');
     } else {

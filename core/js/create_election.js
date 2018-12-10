@@ -1,6 +1,6 @@
 function electionHandler(){
 
-  $('#createEleBtn').click(function(){
+  $('#createEleBtn').click(function(event){
     event.preventDefault();
     var $errs = $('.err_output')
     $errs.text('');
@@ -58,7 +58,7 @@ function electionHandler(){
 
   })
 
-  $('#cancelEleBtn').click(function(){
+  $('#cancelEleBtn').click(function(event){
     event.preventDefault();
     window.location.href = "index.php?view=admin_panel";
   })

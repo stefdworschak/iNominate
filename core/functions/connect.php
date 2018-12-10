@@ -1,6 +1,8 @@
 <?php
 //require('core/env_vars.php');
 require('create_hash.php');
+require('winner.php');
+
 
 class DBClass extends DBSettings
 {
@@ -49,7 +51,17 @@ class DBClass extends DBSettings
     function fetchUserData($user){
       $this->connect();
       $tbl = 'users';
-      $stmt = $this->conn->prepare("SELECT `id`,`first_name`,`last_name`,`email_address`,`user_type`,`org`,`department`,`img_link` FROM `{$tbl}` WHERE `email_address` = :username;");
+      $stmt = $this->conn->prepare("
+      SELECT u.`id`,u.`first_name`,u.`last_name`,u.`email_address`,u.`user_type`,u.`org`,u.`department`,u.`img_link`, e.`title` AS position,
+        IF(r.`expiry_date` IS NOT NULL, 1,0) AS elected
+        FROM `users` AS u
+        LEFT JOIN `reps` AS r
+        ON u.`id` = r.`user_id`
+        LEFT JOIN `elections` AS e
+        ON r.`election_id` = e.`id`
+        WHERE (r.`expiry_date` > NOW() OR r.`expiry_date` IS NULL)
+        AND `email_address` = :username
+      ");
       $stmt->bindParam(":username",$user,PDO::PARAM_STR);
       $stmt->execute();
       $f = $stmt->fetchAll();
@@ -72,7 +84,7 @@ class DBClass extends DBSettings
     function checkOrg() {
       $this->connect();
       $tbl = 'users';
-      $stmt = $this->conn->prepare("SELECT `org` FROM `{$tbl}`;");
+      $stmt = $this->conn->prepare("SELECT DISTINCT `org` FROM `{$tbl}` ORDER BY `org`;");
       $stmt->execute();
       $f = $stmt->fetchAll();
       $this->close();
@@ -205,8 +217,7 @@ class DBClass extends DBSettings
     function getElections($org){
       //Add to only retrieve for cur){rent company
       $this->connect();
-      $tbl='elections';
-      $stmt=$this->conn->prepare("SELECT * FROM `{$tbl}` WHERE `org` = :org ORDER BY `expiry_date` DESC;");
+      $stmt=$this->conn->prepare("SELECT e.*, p.`reg_candidates`, v.`num_votes` FROM `elections` AS e JOIN( SELECT `election_id`,COUNT(*) AS reg_candidates FROM `profiles` GROUP BY `election_id` ) AS p ON e.`id` = p.`election_id` JOIN ( SELECT `election_id`,COUNT(*) AS num_votes FROM `votes` GROUP BY `election_id` ) AS v ON e.`id` = v.`election_id` WHERE `org` = :org ORDER BY `expiry_date` DESC");
       $stmt->bindParam(":org",$org,PDO::PARAM_STR);
       $stmt->execute();
       $result=$stmt->fetchAll();
@@ -264,7 +275,7 @@ class DBClass extends DBSettings
       $this->connect();
       $tbl='inbox';
       //Currently limited to the last 100 msgs
-      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`to_id` = :id ORDER BY a.`sent` DESC LIMIT 100;");
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,IF(a.`from_id` < 0, 'System',CONCAT(b.`first_name`,' ',b.`last_name`)) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a LEFT JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`to_id` = :id ORDER BY a.`sent` DESC LIMIT 100;");
       $stmt->bindParam(":id",$id,PDO::PARAM_INT);
       $stmt->execute();
       $result=$stmt->fetchAll();
@@ -276,7 +287,7 @@ class DBClass extends DBSettings
       $this->connect();
       $tbl='inbox';
       //Currently limited to the last 100 msgs
-      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`from_id` = :id ORDER BY a.`sent` DESC LIMIT 100;");
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, IF(a.`to_id` =-1, 'System',CONCAT(c.`first_name`,' ',c.`last_name`)) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` LEFT JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`from_id` = 3 ORDER BY a.`sent` DESC LIMIT 100");
       $stmt->bindParam(":id",$id,PDO::PARAM_INT);
       $stmt->execute();
       $result=$stmt->fetchAll();
@@ -287,7 +298,7 @@ class DBClass extends DBSettings
     function getMessage($id, $userid){
       $this->connect();
       $tbl='inbox';
-      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,CONCAT(b.`first_name`,' ',b.`last_name`) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`message_id` = :id AND (a.`from_id` = :userid OR a.`to_id` = :userid);");
+      $stmt=$this->conn->prepare("SELECT a.`message_id`, a.`subject`, a.`message`, a.`from_id`,IF(a.`from_id` < 0, 'System', CONCAT(b.`first_name`,' ',b.`last_name`)) AS sent_from, CONCAT(c.`first_name`,' ',c.`last_name`) AS sent_to, a.`sent` AS received_at, a.`message_read` AS status FROM `inbox` AS a LEFT JOIN `users` AS b ON a.`from_id` = b.`id` JOIN `users` AS c ON a.`to_id` = c.`id` WHERE a.`message_id` = :id AND (a.`from_id` = :userid OR a.`to_id` = :userid);");
       $stmt->bindParam(":id",$id,PDO::PARAM_INT);
       $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
       $stmt->execute();
@@ -387,11 +398,12 @@ class DBClass extends DBSettings
     function getMyElection($userid){
         $this->connect();
         $tbl='profiles';
-        $stmt=$this->conn->prepare("SELECT * FROM `profiles` WHERE `user_id` = :userid");
+        $stmt=$this->conn->prepare("SELECT p.* FROM `profiles` AS p JOIN `elections` e ON p.`election_id` = e.`id` WHERE p.`user_id` = :userid AND e.`closed` IS NULL");
         $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
         $stmt->execute();
         $result=$stmt->fetchAll();
         $this->close();
+        //print_r($result);
         if($result == null) {
           $result=null;
           return $result;
@@ -422,12 +434,14 @@ class DBClass extends DBSettings
 
     }
 
-    function enterVote($candidate_id, $election_id, $userid){
+    function enterVote($param, $userid){
       $this->connect();
       $tbl = 'votes';
-      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`candidate_id`,`election_id`,`user_id`) VALUES(:candidate_id,:election_id,:userid);");
-      $stmt->bindParam(":candidate_id",$candidate_id,PDO::PARAM_INT);
-      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`candidate_id`,`candidate_id2`,`candidate_id3`,`election_id`,`user_id`) VALUES(:candidate_id,:candidate_id2,:candidate_id3,:election_id,:userid);");
+      $stmt->bindParam(":candidate_id",$param['candidate_id'],PDO::PARAM_INT);
+      $stmt->bindParam(":candidate_id2",$param['candidate_id2'],PDO::PARAM_INT);
+      $stmt->bindParam(":candidate_id3",$param['candidate_id3'],PDO::PARAM_INT);
+      $stmt->bindParam(":election_id",$param['election_id'],PDO::PARAM_INT);
       $stmt->bindParam(":userid",$userid,PDO::PARAM_INT);
       $stmt->execute();
       $result=$stmt->rowCount();
@@ -441,6 +455,162 @@ class DBClass extends DBSettings
       $stmt->execute();
       $result=$stmt->fetchAll();
       return $result;
+    }
+
+    function closeElection($election_id){
+      //Change closed to 1 in election
+      print_r($election_id);
+      $this->connect();
+      $stmt=$this->conn->prepare("UPDATE `elections` SET `closed` = 1 WHERE `id` = :election_id;");
+      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt->execute();
+      $result=$stmt->rowCount();
+      return $result;
+    }
+
+    function calculateResults($election_id){
+      $this->connect();
+      $stmt=$this->conn->prepare("SELECT `num_roles` FROM `elections` WHERE `id` = :election_id;");
+      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt->execute();
+      $top=$stmt->fetchAll()[0]['num_roles'];
+      $query = "
+      SELECT * FROM (
+        SELECT a.`candidate`, a.`candidate_name`, SUM(a.`num_votes`) AS votes,
+        SUM(a.`rank1_votes`) AS rank1_votes, SUM(a.`rank2_votes`) AS rank2_votes, SUM(a.`rank3_votes`) AS rank3_votes
+        FROM (
+          SELECT v.`candidate_id`  AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, v.`election_id`, COUNT(v.`candidate_id`) AS num_votes,
+                COUNT(v.`candidate_id`) AS rank1_votes, 0 AS rank2_votes, 0 AS rank3_votes
+          FROM `votes` AS v
+          JOIN `users` AS u
+          ON u.`id` = v.`candidate_id`
+          GROUP BY `candidate_id`,`election_id`
+
+          UNION
+
+          SELECT v.`candidate_id2` AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, v.`election_id`, COUNT(v.`candidate_id2`)*0.3 AS num_votes,
+          0 AS rank1_votes, COUNT(v.`candidate_id2`) AS rank2_votes, 0 AS rank3_votes
+          FROM `votes` AS v
+          JOIN `users` AS u
+          ON u.`id` = v.`candidate_id2`
+          GROUP BY `candidate_id2`,`election_id`
+
+          UNION
+
+          SELECT `candidate_id3`  AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, `election_id`, COUNT(`candidate_id3`)*0.15 AS num_votes,
+          0 AS rank1_votes, 0 AS rank2_votes, COUNT(v.`candidate_id3`) AS rank3_votes
+          FROM `votes` AS v
+          JOIN `users` AS u
+          ON u.`id` = v.`candidate_id3`
+          GROUP BY `candidate_id3`,`election_id`) As a
+        WHERE a.`election_id` = :election_id
+        GROUP BY a.`candidate`
+      ) As b
+      ORDER BY b.votes DESC";
+
+      $query2="
+        INSERT INTO `reps` (`user_id`,`election_id`,`expiry_date`)
+        SELECT * FROM (SELECT :user_id, :election_id, DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 1 YEAR)) AS tmp
+        WHERE NOT EXISTS (
+            SELECT `user_id`,`election_id` FROM `reps` WHERE `user_id` = :user_id AND `election_id` = :election_id
+        );
+      ";
+
+      $stmt2=$this->conn->prepare($query);
+      $stmt2->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt2->execute();
+      $winners=$stmt2->fetchAll();
+      $win_arr = [];
+      $count =0;
+
+      for($i=1; $i < sizeof($winners);$i++){
+            if($winners[$i-1]['votes'] > $winners[$i]['votes']){
+              $count++;
+              array_push($win_arr, $winners[$i-1]['candidate']);
+              $stmt3=$this->conn->prepare($query2);
+              $stmt3->bindParam(":user_id",$winners[$i-1]['candidate'],PDO::PARAM_INT);
+              $stmt3->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+              $stmt3->execute();
+            }
+        $i = $top == $count ? $i = sizeof($winners) : $i;
+      }
+
+      if($win_arr == []) {
+        return null;
+      } else {
+        return $win_arr;
+      }
+    }
+
+    function notifyVoters($election_id, $win_arr){
+      //create inbox entry for every voter to tell them the election results
+      $query = "
+      INSERT INTO `inbox` (`from_id`,`to_id`,`subject`,`message`)
+      SELECT * FROM (SELECT -(:election_id) AS from_id, v.`user_id` AS to_id, 'Election Results' AS subject,
+      CONCAT('Dear ',IFNULL(u.`first_name`,'User'), ', <br />The election results for ', e.title,' are finally in.<br />Please click [link=\"index.php?view=election_results&election_id=',e.`id`,'\"](here) to see the results.<br />Your Support Team' ) As message
+      FROM `votes` AS v
+      LEFT JOIN `users` AS u
+      ON v.`user_id` = u.`id`
+      LEFT JOIN `elections` AS e
+      ON v.`election_id` = e.`id`
+
+      UNION
+
+      SELECT -(:election_id) AS from_id, r.`user_id` AS to_id, 'Congratulations!!' AS subject,
+            CONCAT('Dear ',IFNULL(u.`first_name`,'User'), ', <br />The election results for ', e.title,' are finally in.<br />Please click [link=\"index.php?view=election_results&election_id=',e.`id`,'\"](here)  to see the results.<br />Your Support Team' ) As message
+            FROM `reps` AS r
+            LEFT JOIN `users` AS u
+            ON r.`user_id` = u.`id`
+            LEFT JOIN `elections` AS e
+            ON r.`election_id` = e.`id`
+            WHERE r.`election_id`= :election_id
+            AND FIND_IN_SET(CONCAT(r.`user_id`,''),:user_ids)
+      ) as a
+      WHERE NOT EXISTS (
+          SELECT -(:election_id) AS from_id, v.`user_id` AS to_id
+          FROM `inbox` AS i,votes AS v
+          WHERE -(i.from_id) = :election_id
+          AND v.election_id = :election_id
+      );";
+
+      $this->connect();
+      $stmt=$this->conn->prepare($query);
+      $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+      $stmt->bindParam(":user_ids",implode(',',$win_arr),PDO::PARAM_STR);
+      $stmt->execute();
+      $check=$stmt->rowCount();
+      $check2 =1;
+      $this->close();
+      if($check > 0 && $check2 > 0){
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+
+    function displayResults($election_id){
+        $this->connect();
+
+
+        //This part is used for display results
+        /*
+        print_r($win_arr);
+        for($j=0;$j < sizeof($winners);$j++){
+          $win = new Winner;
+          //print_r(in_array($winners[$j]['candidate'], $win_arr));
+          $arr =$win->setWinner(
+              $winners[$j]['candidate'],
+              $winners[$j]['candidate_name'],
+              $winners[$j]['votes'],
+              $winners[$j]['rank1_votes'],
+              $winners[$j]['rank2_votes'],
+              $winners[$j]['rank3_votes'],
+              ($j+1),
+              in_array($winners[$j]['candidate'], $win_arr) == 1 ? 1 : 0
+          );
+          array_push($result_arr,$arr);
+        }*/
+
     }
 
 }

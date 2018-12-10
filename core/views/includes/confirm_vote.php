@@ -3,6 +3,8 @@
     header('Location:index.php?view=elections');
   } else {
     $candidate_id = isset($_POST['candidate_id']) ? $_POST['candidate_id'] : 0;
+    $candidate_id2 = isset($_POST['candidate_id2']) ? $_POST['candidate_id2'] : 0;
+    $candidate_id3 = isset($_POST['candidate_id3']) ? $_POST['candidate_id3'] : 0;
     $election_id = isset($_POST['election_id']) ? $_POST['election_id'] : 0;
     if($candidate_id == 0 || $election_id == 0){
         header('Location:index.php?view=elections');
@@ -21,8 +23,10 @@
         <br />
         <input type="text" class="otp" maxlength="4" /><input type="text" class="otp" maxlength="1" /><input type="text" class="otp" maxlength="1" /><input type="text" class="otp" maxlength="1" />
         <br /><br />
-        <form method="POST" action="core/functions/vote.php" enctype="multipart/form-data" style="display:inline;" id="frmCandidate">
+        <form method="POST" action="core/functions/vote.php" enctype="multipart/form-data" style="display:inline;">
             <input type="hidden" name="candidate_id" value="<?php echo $candidate_id; ?>" />
+            <input type="hidden" name="candidate_id2" value="<?php echo $candidate_id2; ?>" />
+            <input type="hidden" name="candidate_id3" value="<?php echo $candidate_id3; ?>" />
             <input type="hidden" name="election_id" value="<?php echo $election_id; ?>" />
             <button type="submit" class="btn btn-danger custom-danger">Validate</button>
         </form>

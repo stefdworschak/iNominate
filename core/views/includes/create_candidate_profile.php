@@ -22,17 +22,17 @@
         </div>
         <div class="form-group">
             <h5 class="card-title profile_subtitle">Mission Statement<span class="err_output" id="mission_err"><span></h5>
-            <textarea class="form-control" rows="5" id="mission_statement" name="mission_statement"></textarea>
+            <textarea class="form-control" rows="5" id="mission_statement" name="mission_statement" style="white-space: pre-wrap;"></textarea>
         </div>
 
         <div class="form-group">
             <h5 class="card-title profile_subtitle">Policies<span class="err_output" id="policies_err"><span></h5>
-            <textarea class="form-control" rows="5" id="policies" name="policies"></textarea>
+            <textarea class="form-control" rows="5" id="policies" name="policies"  style="white-space: pre-wrap;"></textarea>
         </div>
 
         <div class="form-group">
             <h5 class="card-title profile_subtitle">Areas of Interest<span class="err_output" id="areas_err"><span></h5>
-            <textarea class="form-control" rows="5" id="areas_of_interest" name="areas_of_interest"></textarea>
+            <textarea class="form-control" rows="5" id="areas_of_interest" name="areas_of_interest"  style="white-space: pre-wrap;"></textarea>
         </div>
         <input type="hidden" name="userid" value="<?php echo $_SESSION['userid']; ?>" />
         <input type="hidden" name="election_id" value="<?php echo $election_id; ?>" />
