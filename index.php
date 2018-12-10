@@ -2,7 +2,8 @@
     session_start();
     require('core/init.php');
     // To secure from cross-site scripting
-    require('core/functions/xss_init.php')
+    require('core/functions/xss_init.php');
+    require('core/functions/otp.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

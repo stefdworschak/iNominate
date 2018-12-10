@@ -589,27 +589,68 @@ class DBClass extends DBSettings
     }
 
     function displayResults($election_id){
-        $this->connect();
-        
+      $query = "
+      SELECT b.*,IF(r.`id` IS NULL, 0,1) AS elected FROM (
+                  SELECT a.`candidate`, a.`candidate_name`, SUM(a.`num_votes`) AS votes,
+                  SUM(a.`rank1_votes`) AS rank1_votes, SUM(a.`rank2_votes`) AS rank2_votes, SUM(a.`rank3_votes`) AS rank3_votes
+                  FROM (
+                    SELECT v.`candidate_id`  AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, v.`election_id`, COUNT(v.`candidate_id`) AS num_votes,
+                          COUNT(v.`candidate_id`) AS rank1_votes, 0 AS rank2_votes, 0 AS rank3_votes
+                    FROM `votes` AS v
+                    JOIN `users` AS u
+                    ON u.`id` = v.`candidate_id`
+                    GROUP BY `candidate_id`,`election_id`
 
+                    UNION
+
+                    SELECT v.`candidate_id2` AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, v.`election_id`, COUNT(v.`candidate_id2`)*0.3 AS num_votes,
+                    0 AS rank1_votes, COUNT(v.`candidate_id2`) AS rank2_votes, 0 AS rank3_votes
+                    FROM `votes` AS v
+                    JOIN `users` AS u
+                    ON u.`id` = v.`candidate_id2`
+                    GROUP BY `candidate_id2`,`election_id`
+
+                    UNION
+
+                    SELECT `candidate_id3`  AS candidate, CONCAT(u.`first_name`,' ',u.`last_name`) AS candidate_name, `election_id`, COUNT(`candidate_id3`)*0.15 AS num_votes,
+                    0 AS rank1_votes, 0 AS rank2_votes, COUNT(v.`candidate_id3`) AS rank3_votes
+                    FROM `votes` AS v
+                    JOIN `users` AS u
+                    ON u.`id` = v.`candidate_id3`
+                    GROUP BY `candidate_id3`,`election_id`) As a
+                  WHERE a.`election_id` = :election_id
+                  GROUP BY a.`candidate`
+                ) As b
+                LEFT JOIN (SELECT * FROM reps WHERE `election_id` = :election_id)  AS r
+                ON b.`candidate` = r.`user_id`
+                ORDER BY b.`votes` DESC
+        ";
+        $this->connect();
+        $stmt=$this->conn->prepare($query);
+
+
+        $stmt->bindParam(":election_id",$election_id,PDO::PARAM_INT);
+        $stmt->execute();
+        $rows=$stmt->fetchAll();
+        $results=[];
         //This part is used for display results
-        /*
-        print_r($win_arr);
-        for($j=0;$j < sizeof($winners);$j++){
+
+        //print_r($win_arr);
+        for($j=0;$j < sizeof($rows);$j++){
           $win = new Winner;
-          //print_r(in_array($winners[$j]['candidate'], $win_arr));
           $arr =$win->setWinner(
-              $winners[$j]['candidate'],
-              $winners[$j]['candidate_name'],
-              $winners[$j]['votes'],
-              $winners[$j]['rank1_votes'],
-              $winners[$j]['rank2_votes'],
-              $winners[$j]['rank3_votes'],
+              $rows[$j]['candidate'],
+              $rows[$j]['candidate_name'],
+              $rows[$j]['votes'],
+              $rows[$j]['rank1_votes'],
+              $rows[$j]['rank2_votes'],
+              $rows[$j]['rank3_votes'],
               ($j+1),
-              in_array($winners[$j]['candidate'], $win_arr) == 1 ? 1 : 0
+              $rows[$j]['elected']
           );
-          array_push($result_arr,$arr);
-        }*/
+          array_push($results,$arr);
+        }
+        return $results;
 
     }
 

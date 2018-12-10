@@ -73,7 +73,7 @@
                       <strong>Number of Candidates:</strong> ". $all[$i]['reg_candidates'] ."/" . $all[$i]['num_candidates'] ." <br>
                       <strong>Election expiry date:</strong> " . $all[$i]['expiry_date'] ." <br>
                     </p>
-                    <a href='#' class='btn btn-primary btn-sm'>View Results</a>
+                    <a href='index.php?view=election_results&election_id=" . $all[$i]['id'] . "' class='btn btn-primary btn-sm'>View Results</a>
                   </div>
                 </div>
                 ";

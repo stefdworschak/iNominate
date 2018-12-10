@@ -2,7 +2,8 @@
 // $DEPLOYED = 1     for production
 // $DEPLOYED = 0     for development
 $ENVIROMENT_PATH ="http://localhost/iNominate/";
-$EMAIL_VAR = 1;
+$EMAIL_VAR = 0;
+//print_r($ENVIROMENT_PATH);
 //$EMAIL_VAR = 1;
 //$ENVIROMENT_PATH ="http://inominate-2018.herokuapp.com/";
 
@@ -14,7 +15,7 @@ $EMAIL_VAR = 1;
           // Variable to decide if development environment is used or production
           // $m = 1     for production
           // $m = 0     for development
-          $m = 1;
+          $m = 0;
           $url = ($m < 1 ? '' : parse_url(getenv("CLEARDB_DATABASE_URL")));
 
           $settings['server'] = ($m < 1 ? 'localhost' : $url["host"]);

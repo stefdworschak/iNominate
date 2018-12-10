@@ -15,7 +15,7 @@
     $img = $all[$i]['img_link'] == '' ? 'core/img/portrait.png' : $all[$i]['img_link'];
 
     $html .= "
-    <div class='col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-3 single-row'>
+    <div class='col-xs-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 single-row'>
       <div class='card' style='width:100%;'>
       <img class='card-img-top' src='" . $img ."' alt='Profile Photo'>
       <div class='card-body'>
@@ -34,8 +34,8 @@
     //if($i % 3 == 0 && $i != 0) {$html .= "</div>";}
 
   }
-  if(sizeof($all) % 4 != 0){
-    $append = (sizeof($all) % 4) * 3;
+  if(sizeof($all) % 3 != 0){
+    $append = (sizeof($all) % 3) * 4;
     //$html .= "<div class='col-md-" . $append ."'>&nbsp;</div></div>";
   }
   $html .= '</div>';
