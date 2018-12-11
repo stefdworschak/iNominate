@@ -176,3 +176,10 @@ input.otp:focus{
 }
 
 /* Vote Flow */
+
+
+/* Polls */
+
+.poll_question{
+  text-align:left!important;
+}
