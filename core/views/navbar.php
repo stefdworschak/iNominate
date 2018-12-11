@@ -1,7 +1,7 @@
 <?php
 $messages=$c->numMessages($_SESSION['userid']);
+print_r($_SESSION['posistion']);
 ?>
-
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href="#">
     <!-- https://pixabay.com/en/group-user-add-icon-person-2935518/ -->
@@ -19,7 +19,7 @@ $messages=$c->numMessages($_SESSION['userid']);
       <!--<a class="nav-item nav-link" href="#">Company Structure</a>-->
       <a class="nav-item nav-link" href="index.php?view=inbox">Inbox <span class="badge inbox"><?php echo $messages; ?></span></a>
       <?php
-        if($_SESSION['position'] != null) {
+        if($_SESSION['position'] !=) {
           echo "<a class='nav-item nav-link' href='index.php?view=create_poll'>Admin Panel</a>";
         }
       ?>
