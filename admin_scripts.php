@@ -89,7 +89,7 @@
     echo "<table style='border: solid 1px black; text-align:center;'>";
   //  echo "<tr><th>id</th><th></th><th>firstname</th><th>last_name</th><th>Default</th><th>Extra</th></tr>";
     $c->connect();
-    $stmt=$c->conn->prepare("SELECT * FROM {$tbl} LIMIT 5;");
+    $stmt=$c->conn->prepare("SELECT * FROM {$tbl} LIMIT 50;");
     $stmt->execute();
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
     foreach(new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {

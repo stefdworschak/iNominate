@@ -19,6 +19,11 @@ $messages=$c->numMessages($_SESSION['userid']);
       <!--<a class="nav-item nav-link" href="#">Company Structure</a>-->
       <a class="nav-item nav-link" href="index.php?view=inbox">Inbox <span class="badge inbox"><?php echo $messages; ?></span></a>
       <?php
+        if($_SESSION['position'] != null) {
+          echo "<a class='nav-item nav-link' href='index.php?view=create_poll'>Admin Panel</a>";
+        }
+      ?>
+      <?php
         if($_SESSION['user_type'] == 'admin') {
           echo "<a class='nav-item nav-link' href='index.php?view=admin_panel'>Admin Panel</a>";
         }

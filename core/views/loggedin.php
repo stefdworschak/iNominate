@@ -44,6 +44,10 @@
         include('includes/select_candidate.php');
     }  else if($view == 'election_results') {
         include('includes/election_results.php');
+    } else if($view == 'create_poll') {
+        include('includes/create_poll.php');
+    } else if($view == 'view_poll') {
+        include('includes/view_poll.php');
     } else {
         include('includes/all_elections.php');
         //include('includes/loggedin_main.php');
