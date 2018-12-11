@@ -3,8 +3,11 @@
     //Using Heroku Sendmail Addon
     //https://devcenter.heroku.com/articles/sendgrid#php
     //https://github.com/sendgrid/sendgrid-php
-
-    require("../sendgrid-php/sendgrid-php.php");
+    if(!file_exists('../sendgrid-php/sendgrid-php.php')){
+      require("core/sendgrid-php/sendgrid-php.php");
+    } else{
+      require("../sendgrid-php/sendgrid-php.php");
+    }
 
     function sendEmail($receiver, $subjectLine, $htmlBody) {
       $from = new SendGrid\Email(null, "inominate18@gmail.com");

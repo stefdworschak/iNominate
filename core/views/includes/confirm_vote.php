@@ -6,7 +6,6 @@
     try {
         echo 'EP: ' . $ENVIROMENT_PATH . '<br>';
         echo 'EmailP: ' . $EMAIL_VAR . '<br>';
-        require('../../function/email.php');
         $otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
         //echo 2;
 
