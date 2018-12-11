@@ -49,7 +49,7 @@
               } else  if(<?php echo $otp[0]; ?> != $('.otp').val()){
                     event.preventDefault();
                     $('.err_out').html('<div class="alert alert-danger" role="alert">The code you entered is incorrect!</div>');
-                } else if(<?php echo $otp[1]*1000 + (300000); ?> >= new Date().getTime()){
+                } else if(<?php echo $otp[1]*1000 + (300000); ?> < new Date().getTime()){
                     event.preventDefault();
                     console.log(new Date().getTime());
                     $('.err_out').html('<div class="alert alert-danger" role="alert">Your OTP has expired, please refresh to send again!</div>');
