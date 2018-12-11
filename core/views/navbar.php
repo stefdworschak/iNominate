@@ -1,5 +1,6 @@
 <?php
 $messages=$c->numMessages($_SESSION['userid']);
+echo $_SESSION['position'];
 ?>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href="#">
@@ -18,7 +19,7 @@ $messages=$c->numMessages($_SESSION['userid']);
       <!--<a class="nav-item nav-link" href="#">Company Structure</a>-->
       <a class="nav-item nav-link" href="index.php?view=inbox">Inbox <span class="badge inbox"><?php echo $messages; ?></span></a>
       <?php
-        if($_SESSION['position'] !=) {
+        if($_SESSION['position'] != null) {
           echo "<a class='nav-item nav-link' href='index.php?view=create_poll'>Admin Panel</a>";
         }
       ?>
