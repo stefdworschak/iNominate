@@ -10,7 +10,7 @@ function generateOTP($n, $env_path, $e_path)
     for ($i = 1; $i <= $n; $i++) {
       $OTP .= substr($Generator,(rand()%(strlen($Generator))),1);
     }
-    //sendOTP($OTP, $env_path, $e_path);
+    sendOTP($OTP, $env_path, $e_path);
     return array($OTP,time());
 }
 
