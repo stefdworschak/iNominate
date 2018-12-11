@@ -31,9 +31,9 @@
     $_SESSION['my_election'] = $my_election;
     $_SESSION['position'] = $user_data['position'];
     //print_r($my_election);
-    header('Location:../../index.php');
+    //header('Location:../../index.php');
     } else {
-    header('Location:../../index.php?err=login_err');
+    //header('Location:../../index.php?err=login_err');
   }
 
 ?>
