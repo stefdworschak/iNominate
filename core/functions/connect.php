@@ -684,7 +684,7 @@ class DBClass extends DBSettings
 
           $query = "
           INSERT INTO `inbox` (`from_id`,`to_id`,`subject`,`message`)
-          SELECT * FROM (SELECT -(:poll_id) As from_id, `id` as to_id, 'New Poll!' AS subject, CONCAT('Hi ', first_name, ' ', last_name, 'there is a new poll for you. <br />Click [link=\"index.php?view=election_results&election_id=:poll_id\"](here) to check it out.<br />Thanks') AS message
+          SELECT * FROM (SELECT -(:poll_id) As from_id, `id` as to_id, 'New Poll!' AS subject, CONCAT('Hi ', first_name, ' ', last_name, 'there is a new poll for you. <br />Click [link=\"index.php?view=election_results&election_id=',:poll_id,'\"](here) to check it out.<br />Thanks') AS message
           FROM `users`) AS a
           ";
           $stmt2 = $this->conn->prepare($query);
