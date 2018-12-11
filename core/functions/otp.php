@@ -1,4 +1,5 @@
 <?php
+require('email.php');
 function generateOTP($n, $env_path, $e_path)
 {
     $Generator = "135792468";
