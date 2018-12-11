@@ -654,6 +654,47 @@ class DBClass extends DBSettings
 
     }
 
+    function createPoll($arr, $userid, $dept){
+      try{
+          $question = $arr['poll_question'];
+          $opt1 = $arr['opt1'];
+          $opt2 = $arr['opt2'];
+          $opt3 = $arr['opt3'];
+          $opt4 = $arr['opt4'];
+          $opt5 = $arr['opt5'];
+          $exp_date = $arr['poll_expirydate'] . ' ' .$arr['poll_expirytime'];
+          $range = $arr['poll_range'] == 'All' ? 'All' : $dept;
+
+          $this->connect();
+          $tbl = 'polls';
+          $stmt = $this->conn->prepare("INSERT INTO `{$tbl}` (`user_id`,`question`,`opt1`,`opt2`,`opt3`,`opt4`,`opt5`,`expiry_date`,`range`) VALUES(:user_id,:question,:opt1,:opt2,:opt3,:opt4,:opt5,:exp_date,:range)");
+          $stmt->bindParam(":user_id",$userid,PDO::PARAM_INT);
+          $stmt->bindParam(":question",$question,PDO::PARAM_STR);
+          $stmt->bindParam(":opt1",$opt1,PDO::PARAM_STR);
+          $stmt->bindParam(":opt2",$opt2,PDO::PARAM_STR);
+          $stmt->bindParam(":opt3",$opt3,PDO::PARAM_STR);
+          $stmt->bindParam(":opt4",$opt4,PDO::PARAM_STR);
+          $stmt->bindParam(":opt5",$opt5,PDO::PARAM_STR);
+          $stmt->bindParam(":exp_date",$exp_date,PDO::PARAM_STR);
+          $stmt->bindParam(":range",$range,PDO::PARAM_STR);
+          $stmt->execute();
+          $this->close();
+          return true;
+        } catch(Exception $e) {
+          $return = $e->getMessage();
+        }
+    }
+
+    function fetchPoll($poll_id){
+      $this->connect();
+      $stmt = $this->conn->prepare("SELECT * FROM `polls` WHERE `id` = :poll_id;");
+      $stmt->bindParam(":poll_id",$poll_id,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->fetchAll();
+      $this->close();
+      return $f[0];
+    }
+
 }
 
   $c = new DBClass;

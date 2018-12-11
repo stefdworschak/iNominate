@@ -122,4 +122,5 @@ $(document).ready(function(){
   createProfileHandler();
   voteFlowHandler();
   selectCandidateHandler();
+  createPollHandler();
 })

@@ -18,3 +18,4 @@
 <script src="core/js/create_profile.js"></script>
 <script src="core/js/vote_flow.js"></script>
 <script src="core/js/select_candidate.js"></script>
+<script src="core/js/createPoll.js"></script>
