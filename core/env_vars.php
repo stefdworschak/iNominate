@@ -1,11 +1,11 @@
 <?php
 // $DEPLOYED = 1     for production
 // $DEPLOYED = 0     for development
-$ENVIROMENT_PATH ="http://localhost/iNominate/";
+//$ENVIROMENT_PATH ="http://localhost/iNominate/";
 $EMAIL_VAR = 1;
 //print_r($ENVIROMENT_PATH);
 //$EMAIL_VAR = 1;
-//$ENVIROMENT_PATH ="http://inominate-2018.herokuapp.com/";
+$ENVIROMENT_PATH ="http://inominate-2018.herokuapp.com/";
 
     class DBSettings {
 

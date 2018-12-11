@@ -4,6 +4,8 @@
   } else {
     echo 1;
     try {
+        echo $ENVIROMENT_PATH;
+        echo $EMAIL_VAR;
         //$otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
         echo 2;
         if($otp[1] > time()){
