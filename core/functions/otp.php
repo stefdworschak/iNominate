@@ -18,6 +18,7 @@ function sendOTP($OTP, $env, $e_path){
   $to = ($_SESSION['email_address']);
   $firstName =$_SESSION["first_name"];
   $subject = 'iNominate - One-Time Password';
+  echo 'To: ' . $to;
   $message = '
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
@@ -469,7 +470,9 @@ function sendOTP($OTP, $env, $e_path){
    $headers .= 'From: Mailer <inominate18@gmail.com>' . "\r\n";
    $headers .= 'X-Mailer: PHP/' . phpversion();
    try{
+        $email_response =  sendEmail($to, $subject, $message);
   /*     $email_response = $e_path == 0 ? mail($to, $subject, $message, $headers) : sendEmail($to, $subject, $message);
+
        // if(!mail($to, $subject, $message, $headers)){
        if(!$email_response || $email_response != 202){
          echo "Error !!";
