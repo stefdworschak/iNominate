@@ -469,13 +469,13 @@ function sendOTP($OTP, $env, $e_path){
    $headers .= 'From: Mailer <inominate18@gmail.com>' . "\r\n";
    $headers .= 'X-Mailer: PHP/' . phpversion();
    try{
-       $email_response = $e_path == 0 ? mail($to, $subject, $message, $headers) : sendEmail($to, $subject, $message);
+  /*     $email_response = $e_path == 0 ? mail($to, $subject, $message, $headers) : sendEmail($to, $subject, $message);
        // if(!mail($to, $subject, $message, $headers)){
        if(!$email_response || $email_response != 202){
          echo "Error !!";
         } else{
          //echo "Email Sent !!";
-        }
+       }*/
   } catch(Exception $e){
       echo $e->getMessage();
   }
