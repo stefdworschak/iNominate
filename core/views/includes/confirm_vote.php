@@ -2,9 +2,10 @@
   if(!$_POST){
     header('Location:index.php?view=elections');
   } else {
+    echo 1;
     try {
         $otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
-
+        echo 2;
         if($otp[1] > time()){
           print_r($otp);
         }
