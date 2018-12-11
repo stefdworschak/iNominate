@@ -45,6 +45,7 @@ class DBClass extends DBSettings
       $f = $stmt->fetchColumn();
       $this->close();
       $loggedin = password_verify($pw,$f);
+      print_r($loggedin);
       return $loggedin;
     }
 

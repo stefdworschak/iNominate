@@ -11,6 +11,13 @@ $(document).ready(function(){
     window.location.href="index.php?mode=login";
   })
 
+$('#LoginFrm').submit(function(){
+    if($('#exampleInputEmail1').val() == '' || $('#exampleInputPassword1').val() == ''){
+      window.location.href="index.php?err=login_err";
+    }
+});
+
+
   $('#UserType').change(function(){
     $('#orgDisplay').show();
     $('#deptDisplay').show();
