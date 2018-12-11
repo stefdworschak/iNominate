@@ -31,8 +31,8 @@
     $my_election =$c->getMyElectionNew($user_data['id']);
     $_SESSION['my_election'] = $my_election;
     $_SESSION['position'] = $user_data['position'];
-    print_r($my_election);
-    //header('Location:../../index.php');
+    //print_r($my_election);
+    header('Location:../../index.php');
     } else {
     header('Location:../../index.php?err=login_err');
   }
