@@ -2,17 +2,21 @@
   if(!$_POST){
     header('Location:index.php?view=elections');
   } else {
-    $otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
+    try {
+        $otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
 
-    if($otp[1] > time()){
-      print_r($otp);
-    }
-    $candidate_id = isset($_POST['candidate_id']) ? $_POST['candidate_id'] : 0;
-    $candidate_id2 = isset($_POST['candidate_id2']) ? $_POST['candidate_id2'] : 0;
-    $candidate_id3 = isset($_POST['candidate_id3']) ? $_POST['candidate_id3'] : 0;
-    $election_id = isset($_POST['election_id']) ? $_POST['election_id'] : 0;
-    if($candidate_id == 0 || $election_id == 0){
-        header('Location:index.php?view=elections');
+        if($otp[1] > time()){
+          print_r($otp);
+        }
+        $candidate_id = isset($_POST['candidate_id']) ? $_POST['candidate_id'] : 0;
+        $candidate_id2 = isset($_POST['candidate_id2']) ? $_POST['candidate_id2'] : 0;
+        $candidate_id3 = isset($_POST['candidate_id3']) ? $_POST['candidate_id3'] : 0;
+        $election_id = isset($_POST['election_id']) ? $_POST['election_id'] : 0;
+        if($candidate_id == 0 || $election_id == 0){
+            header('Location:index.php?view=elections');
+        }
+    } catch(Exception $e){
+      echo $e->getMessage();
     }
   }
 
