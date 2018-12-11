@@ -679,11 +679,35 @@ class DBClass extends DBSettings
           $stmt->bindParam(":exp_date",$exp_date,PDO::PARAM_STR);
           $stmt->bindParam(":range",$range,PDO::PARAM_STR);
           $stmt->execute();
+
+          $last_id=$this->conn->insert_id;
+
+          $query = "
+          INSERT INTO `inbox` (`from_id`,`to_id`,`subject`,`message`)
+          SELECT * FROM (SELECT -(:poll_id) As from_id, `id` as to_id, 'New Poll!' AS subject, CONCAT('Hi ', first_name, ' ', last_name, 'there is a new poll for you. <br />Click [link=\"index.php?view=election_results&election_id=:poll_id\"](here) to check it out.<br />Thanks') AS message
+          FROM `users`) AS a
+          ";
+          $stmt2 = $this->conn->prepare($query);
+          $stmt2->bindParam(":poll_id",$last_id,PDO::PARAM_INT);
+          $stmt2->execute();
           $this->close();
           return true;
         } catch(Exception $e) {
           $return = $e->getMessage();
         }
+    }
+
+    function emailPoll($poll_id, $dept){
+      $this->connect();
+      $tbl = 'polls';
+      $query = "
+      INSERT INTO `inbox` (`from_id`,`to_id`,`subject`,`message`)
+      SELECT * FROM (SELECT -(:poll_id) As from_id, `id` as to_id, 'New Poll!' AS subject, CONCAT('Hi ', first_name, ' ', last_name, 'there is a new poll for you. <br />Click here to check it out.<br />Thanks') AS message
+      FROM `users`) AS a
+      ";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(":poll_id",$poll_id,PDO::PARAM_INT);
+      return $stmt;
     }
 
     function fetchPoll($poll_id){
@@ -694,6 +718,29 @@ class DBClass extends DBSettings
       $f = $stmt->fetchAll();
       $this->close();
       return $f[0];
+    }
+
+    function checkPolled($poll_id, $userid){
+      $this->connect();
+      $stmt = $this->conn->prepare("SELECT * FROM `poll_answers` WHERE `poll_id` = :poll_id AND `user_id` = :user_id");
+      $stmt->bindParam(":poll_id",$poll_id,PDO::PARAM_STR);
+      $stmt->bindParam(":user_id",$userid,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->rowCount();
+      $this->close();
+      return $f;
+    }
+
+    function answerPoll($arr, $userid) {
+      $this->connect();
+      $stmt = $this->conn->prepare("INSERT INTO `poll_answers` (`poll_id`,`user_id`,`answer`) VALUES (:poll_id,:user_id, :answer)");
+      $stmt->bindParam(":poll_id",$arr['poll_id'],PDO::PARAM_STR);
+      $stmt->bindParam(":answer",$arr['answer'],PDO::PARAM_STR);
+      $stmt->bindParam(":user_id",$userid,PDO::PARAM_STR);
+      $stmt->execute();
+      $f = $stmt->rowCount();
+      $this->close();
+      return $f;
     }
 
 }

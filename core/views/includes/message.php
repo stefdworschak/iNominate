@@ -7,12 +7,17 @@
   } else {
     $row=$c->getMessage($message_id, $_SESSION['userid']);
     $message = $row['message'];
-    preg_match_all('/(["]=?)(.*)?(?=["])/',$message, $li);
-    preg_match_all('/([(]=?)(.*)?(?=[)])/',$message, $l);
-    $link=$li[2][0];
-    $label=$l[2][0];
-    //$nm=preg_replace('/\[.*\)/','<a href="'.$link.'">'.$label.'</a>',$row['message']);
-    $nm = $message;
+
+    if(strpos($message, 'link="') !== false){
+      preg_match_all('/(["]=?)(.*)?(?=["])/',$message, $li);
+      preg_match_all('/([(]=?)(.*)?(?=[)])/',$message, $l);
+      $link=$li[2][0];
+      $label=$l[2][0];
+      $nm=preg_replace('/\[.*\)/','<a href="'.$link.'">'.$label.'</a>',$row['message']);
+    } else {
+        $nm = $message;
+    }
+
     if(sizeof($row) == 0){
       echo $message_id;
       echo $_SESSION['userid'];

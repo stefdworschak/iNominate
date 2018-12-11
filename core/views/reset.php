@@ -1,7 +1,7 @@
 <?php
 $timestamp = $_GET['ts'];
 $cur_time = time();
-$sec = 10800;
+$sec = 86400;
 if($cur_time - $timestamp > $sec){
   header("Location:index.php?mode=forgot&err=timestamp");
 }
