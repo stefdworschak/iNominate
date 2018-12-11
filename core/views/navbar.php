@@ -1,6 +1,5 @@
 <?php
 $messages=$c->numMessages($_SESSION['userid']);
-print_r($_SESSION['posistion']);
 ?>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href="#">
