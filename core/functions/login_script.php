@@ -33,7 +33,7 @@
     //print_r($my_election);
     //header('Location:../../index.php');
     } else {
-    //header('Location:../../index.php?err=login_err');
+    header('Location:../../index.php?err=login_err');
   }
 
 ?>
