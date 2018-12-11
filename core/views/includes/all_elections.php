@@ -13,7 +13,7 @@
   $success = isset($_GET['candidate_reg_success']) ? $_GET['candidate_reg_success'] : false;
   $err_type = isset($_GET['err']) ? $_GET['err'] : '';
 
-  print_r($all);
+  //print_r($all);
 
   if($err_type != ''){
     if($err_type == 'already_candidate'){
