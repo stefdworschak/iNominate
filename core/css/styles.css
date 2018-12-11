@@ -110,7 +110,7 @@ body {
 
 /* Vote Flow */
 input.otp {
-  /*padding-left: 15px;
+  padding-left: 15px;
   letter-spacing: 42px;
   border: 0;
   background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
@@ -120,9 +120,9 @@ input.otp {
   background-position-x: 35px;
   width: 190px;
   outline:none;
-  overflow: hidden;*/
+  overflow: hidden;
 
-
+  /*
   width:30px;
   font-size:18px;
   font-weight: bold;
@@ -134,12 +134,13 @@ input.otp {
   padding:0px;
   padding-bottom:2px;
   margin-left:5px;
-  margin-right:5px;
+  margin-right:5px;*/
 }
+/*
 input.otp:focus{
     border-bottom:2px solid darkgray;
 }
-
+*/
 .custom-danger {
   background-color:#ff6a6c !important;
   border:0px solid #ff6a6c !important;

@@ -18,7 +18,6 @@ function sendOTP($OTP, $env, $e_path){
   $to = ($_SESSION['email_address']);
   $firstName =$_SESSION["first_name"];
   $subject = 'iNominate - One-Time Password';
-  echo 'To: ' . $to;
   $message = '
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html xmlns="http://www.w3.org/1999/xhtml">
@@ -28,6 +27,17 @@ function sendOTP($OTP, $env, $e_path){
       <title>Set up a new password for iNominate</title>
       <style type="text/css" rel="stylesheet" media="all">
       /* Base ------------------------------ */
+
+      .otp {
+        border-radius:5px;
+        padding:10px;
+        padding-left:50px;
+        padding-right:50px;
+        font-size:1.5em;
+        color:white;
+        background-color:#ff6a6c !important;
+        border:0px solid #ff6a6c !important;
+      }
 
       *:not(br):not(tr):not(html) {
         font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -429,7 +439,9 @@ function sendOTP($OTP, $env, $e_path){
                     <tr>
                       <td class="content-cell">
                         <h1>Hi '.$firstName.',</h1>
-                        <p>You recently requested to reset your password for your iNominate account. Use the button below to reset it. <strong>This password reset is only valid for the next 24 hours.</strong></p>
+                        <p>Here is your One-Time Password to confirm your votes! <strong>Please copy & paste the code below into the four-digit input box and click validate.</strong>
+                        Be aware that your One-Time Password will expire after 5 minutes.
+                        </p>
                         <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0">
                           <tr>
                             <td align="center">
@@ -438,7 +450,7 @@ function sendOTP($OTP, $env, $e_path){
                                   <td align="center">
                                     <table border="0" cellspacing="0" cellpadding="0">
                                       <tr>
-                                        <td>
+                                        <td class="otp">
                                         '.$OTP.'
                                         </td>
                                       </tr>
