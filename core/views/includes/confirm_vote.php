@@ -2,15 +2,15 @@
   if(!$_POST){
     header('Location:index.php?view=elections');
   } else {
-    echo 1;
+    //echo 1;
     try {
-        echo 'EP: ' . $ENVIROMENT_PATH;
-        echo 'EmailP: ' . $EMAIL_VAR;
-        //$otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
-        echo 2;
-        if($otp[1] > time()){
-          print_r($otp);
-        }
+        echo 'EP: ' . $ENVIROMENT_PATH . '<br>';
+        echo 'EmailP: ' . $EMAIL_VAR . '<br>';
+        $otp=generateOTP(4, $ENVIROMENT_PATH, $EMAIL_VAR);
+        //echo 2;
+
+        print_r($otp);
+
         $candidate_id = isset($_POST['candidate_id']) ? $_POST['candidate_id'] : 0;
         $candidate_id2 = isset($_POST['candidate_id2']) ? $_POST['candidate_id2'] : 0;
         $candidate_id3 = isset($_POST['candidate_id3']) ? $_POST['candidate_id3'] : 0;
